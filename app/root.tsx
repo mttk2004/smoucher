@@ -1,5 +1,6 @@
 import {
   isRouteErrorResponse,
+  Link,
   Links,
   Meta,
   Outlet,
@@ -42,7 +43,62 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <div className="flex h-screen bg-gray-50 text-gray-900">
+      <aside className="w-64 bg-white border-r border-gray-200 flex flex-col">
+        <div className="h-16 flex items-center px-6 border-b border-gray-200">
+          <span className="text-xl font-bold text-indigo-600">Smoucher</span>
+        </div>
+        <nav className="flex-1 p-4">
+          <ul className="space-y-1">
+            <li>
+              <Link
+                to="/"
+                className="block px-3 py-2 text-sm font-medium text-gray-900 bg-gray-100 rounded-md"
+              >
+                Dashboard
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/campaigns"
+                className="block px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-md"
+              >
+                Campaigns
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/vouchers"
+                className="block px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-md"
+              >
+                Vouchers
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/customers"
+                className="block px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-md"
+              >
+                Customers
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/settings"
+                className="block px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-md"
+              >
+                Settings
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+      <main className="flex-1 overflow-auto">
+        <Outlet />
+      </main>
+    </div>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

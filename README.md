@@ -1,87 +1,61 @@
-# Welcome to React Router!
+# Product Requirements Document: Smoucher (Smart Voucher Management System)
+Project Overview
 
-A modern, production-ready template for building full-stack React applications using React Router.
+Smoucher is a centralized Smart Voucher Management System for retail chains, built with a Spring Boot backend and React frontend. It emphasizes high-performance API integration with external POS/E-commerce systems.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+## Tech Stack & Design Style
 
-## Features
+  - Tech Stack: Spring Boot (Backend), React (Frontend).
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+  - Design Style: Modern B2B SaaS, clean aesthetic (Shadcn UI / Tailwind CSS style).
 
-## Getting Started
+  - Priorities: Data clarity, scannability, efficient rule management.
 
-### Installation
+## Core Database Entities
 
-Install the dependencies:
+  Users, Customers, Campaigns, Vouchers, Voucher_Customers, Voucher_Distributions, Voucher_Usages, API_Keys, API_Request_Logs.
 
-```bash
-npm install
-```
+## User Roles
 
-### Development
+  - ADMIN: Full access including API keys and user management.
 
-Start the development server with HMR:
+  - STAFF: Restricted to voucher creation and reporting.
 
-```bash
-npm run dev
-```
+## Sitemap & Screen Requirements (11 Screens)
+  **1. Analytics & Overview**
 
-Your application will be available at `http://localhost:5173`.
+    - Dashboard: High-level metrics (Active Campaigns, Distributed Vouchers, Usage Rate, Budget) and charts.
 
-## Building for Production
+    - Usage History: Detailed table of voucher_usages with external_order_id, branch locations, and discount amounts.
 
-Create a production build:
+  **2. Campaigns & Vouchers**
 
-```bash
-npm run build
-```
+    - Campaign List: Management of marketing campaigns with status badges (DRAFT, ACTIVE, PAUSED, ENDED).
 
-## Deployment
+    - Campaign Detail/Create: Form for budgeting, scheduling (Start/End dates), and descriptions.
 
-### Docker Deployment
+    - Voucher Inventory: List of all unique codes with status filters.
 
-To build and run using Docker:
+    - Voucher Studio (Core): Complex rule builder.
 
-```bash
-docker build -t my-app .
+      - Discount Type: Percentage vs Fixed.
 
-# Run the container
-docker run -p 3000:3000 my-app
-```
+      - Limits: Total max vs Max per customer.
 
-The containerized application can be deployed to any platform that supports Docker, including:
+      - Application Rules: JSONB selectors for products, categories, or branches.
 
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
+      - Visibility: Public vs Private toggle.
 
-### DIY Deployment
+  **3. Customer & Distribution**
 
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
+    - Customer Directory: Linking internal IDs to External System IDs.
 
-Make sure to deploy the output of `npm run build`
+    - Distribution Center: Tracking Email/SMS logs and delivery status (PENDING, SENT, FAILED).
 
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
+  **4. Developer & Admin Portal**
 
-## Styling
+    - API Key Manager: Managing and hashing keys for external integrations.
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+    - API Request Logs: Real-time monitoring of API calls for debugging.
 
----
-
-Built with ❤️ using React Router.
+    - User Settings: Role-based access control (RBAC) settings.
