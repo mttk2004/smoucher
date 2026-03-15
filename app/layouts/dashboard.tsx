@@ -1,4 +1,4 @@
-import { Outlet } from "react-router";
+import { Outlet, Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
 
@@ -24,60 +24,60 @@ export default function DashboardLayout() {
           </div>
         </div>
         <nav className="flex-1 px-4 space-y-1 overflow-y-auto">
-          <a
+          <Link
             className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg bg-primary/10 text-primary"
-            href="/"
+            to="/"
           >
             <span className="material-symbols-outlined">dashboard</span>
             {t("nav.dashboard")}
-          </a>
-          <a
+          </Link>
+          <Link
             className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"
-            href="/campaigns"
+            to="/campaigns"
           >
             <span className="material-symbols-outlined">campaign</span>
             {t("nav.campaigns")}
-          </a>
-          <a
+          </Link>
+          <Link
             className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"
-            href="/vouchers"
+            to="/vouchers"
           >
             <span className="material-symbols-outlined">payments</span>
             {t("nav.vouchers")}
-          </a>
-          <a
+          </Link>
+          <Link
             className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"
-            href="/history"
+            to="/history"
           >
             <span className="material-symbols-outlined">bar_chart</span>
             {t("nav.analytics")}
-          </a>
-          <a
+          </Link>
+          <Link
             className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"
-            href="/customers"
+            to="/customers"
           >
             <span className="material-symbols-outlined">group</span>
             {t("nav.customers")}
-          </a>
+          </Link>
           <div className="pt-4 pb-2">
             <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
               {t("nav.system")}
             </p>
           </div>
-          <a
+          <Link
             className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"
-            href="/settings/api-keys"
+            to="/settings/api-keys"
           >
             <span className="material-symbols-outlined">settings</span>
             {t("nav.settings")}
-          </a>
-          <a
+          </Link>
+          <Link
             className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"
-            href="#"
+            to="#"
           >
             <span className="material-symbols-outlined">help</span>
             {t("nav.support")}
-          </a>
+          </Link>
         </nav>
         <div className="p-4 border-t border-slate-200 dark:border-slate-800">
           <button className="w-full flex items-center gap-3 px-3 py-2.5 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors">
