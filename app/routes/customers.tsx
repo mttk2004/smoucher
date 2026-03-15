@@ -4,7 +4,6 @@ import { PageHeader } from "../components/PageHeader";
 import { Pagination } from "../components/ui/Pagination";
 import { Badge } from "../components/ui/Badge";
 
-
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Smoucher Customer Directory" },
@@ -25,7 +24,7 @@ const CUSTOMERS_DATA = [
     smId: "SM-8821",
     extId: "EXT-9901",
     tier: "Gold",
-    tierVariant: "warning"
+    tierVariant: "warning",
   },
   {
     initials: "JS",
@@ -35,7 +34,7 @@ const CUSTOMERS_DATA = [
     smId: "SM-4412",
     extId: "EXT-2234",
     tier: "Silver",
-    tierVariant: "default"
+    tierVariant: "default",
   },
   {
     initials: "CC",
@@ -45,7 +44,7 @@ const CUSTOMERS_DATA = [
     smId: "SM-1092",
     extId: "EXT-7721",
     tier: "Bronze",
-    tierVariant: "error"
+    tierVariant: "error",
   },
   {
     initials: "TW",
@@ -55,14 +54,14 @@ const CUSTOMERS_DATA = [
     smId: "SM-3398",
     extId: "EXT-5542",
     tier: "Gold",
-    tierVariant: "warning"
-  }
+    tierVariant: "warning",
+  },
 ];
 
 export default function Customers() {
   const { t } = useTranslation();
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 pb-8">
       <PageHeader
         title={t("customers.title")}
         description={t("customers.description")}
@@ -121,48 +120,63 @@ export default function Customers() {
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {CUSTOMERS_DATA.map((customer, i) => (
-              <tr key={i} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-3">
-                    <div className={`size-8 rounded-full flex items-center justify-center font-bold text-xs ${customer.bg}`}>
-                      {customer.initials}
+                <tr
+                  key={i}
+                  className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors"
+                >
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`size-8 rounded-full flex items-center justify-center font-bold text-xs ${customer.bg}`}
+                      >
+                        {customer.initials}
+                      </div>
+                      <span className="text-sm font-semibold">
+                        {customer.name}
+                      </span>
                     </div>
-                    <span className="text-sm font-semibold">{customer.name}</span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
-                  {customer.email}
-                </td>
-                <td className="px-6 py-4">
-                  <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-[11px] font-mono font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                    {customer.smId}
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-[11px] font-mono font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                    {customer.extId}
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="flex justify-center">
-                    <Badge variant={customer.tierVariant as any}>{customer.tier}</Badge>
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <button className="text-slate-400 hover:text-primary transition-colors">
-                    <span className="material-symbols-outlined text-lg">
-                      edit_square
+                  </td>
+                  <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+                    {customer.email}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-[11px] font-mono font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                      {customer.smId}
                     </span>
-                  </button>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-[11px] font-mono font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                      {customer.extId}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex justify-center">
+                      <Badge variant={customer.tierVariant as any}>
+                        {customer.tier}
+                      </Badge>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-right">
+                    <button className="text-slate-400 hover:text-primary transition-colors">
+                      <span className="material-symbols-outlined text-lg">
+                        edit_square
+                      </span>
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
 
         <div className="px-6 py-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30">
-          <Pagination start={1} end={4} total={2450} itemName="results" className="mt-0" />
+          <Pagination
+            start={1}
+            end={4}
+            total={2450}
+            itemName="results"
+            className="mt-0"
+          />
         </div>
       </div>
     </div>

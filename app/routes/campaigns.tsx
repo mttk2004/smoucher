@@ -4,7 +4,6 @@ import { PageHeader } from "../components/PageHeader";
 import { Pagination } from "../components/ui/Pagination";
 import { Badge } from "../components/ui/Badge";
 
-
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Smoucher Admin - Campaign List" },
@@ -25,7 +24,7 @@ const CAMPAIGNS_DATA = [
     endDate: "to Aug 31, 2024",
     spent: "$4,800",
     budget: "$6,500",
-    progress: "74%"
+    progress: "74%",
   },
   {
     icon: "flash_on",
@@ -39,7 +38,7 @@ const CAMPAIGNS_DATA = [
     endDate: "to Sep 16, 2024",
     spent: "$0",
     budget: "$1,200",
-    progress: "0%"
+    progress: "0%",
   },
   {
     icon: "celebration",
@@ -53,7 +52,7 @@ const CAMPAIGNS_DATA = [
     endDate: "to Dec 25, 2023",
     spent: "$25,000",
     budget: "$25,000",
-    progress: "100%"
+    progress: "100%",
   },
   {
     icon: "hot_tub",
@@ -67,14 +66,14 @@ const CAMPAIGNS_DATA = [
     endDate: "to Jul 07, 2024",
     spent: "$440",
     budget: "$2,000",
-    progress: "22%"
-  }
+    progress: "22%",
+  },
 ];
 
 export default function Campaigns() {
   const { t } = useTranslation();
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 pb-8">
       <PageHeader
         title={t("campaigns.title")}
         description={t("campaigns.description")}
@@ -121,56 +120,63 @@ export default function Campaigns() {
           </thead>
           <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
             {CAMPAIGNS_DATA.map((campaign, i) => (
-            <tr key={i} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
-              <td className="px-6 py-5">
-                <div className="flex items-center gap-3">
-                  <div className={`size-10 rounded-lg ${campaign.iconBg} flex items-center justify-center ${campaign.iconColor}`}>
-                    <span className="material-symbols-outlined">
-                      {campaign.icon}
-                    </span>
-                  </div>
-                  <div>
-                    <p className="font-semibold text-slate-900 dark:text-slate-100">
-                      {campaign.name}
-                    </p>
-                    <p className="text-xs text-slate-500">
-                      {campaign.type}
-                    </p>
-                  </div>
-                </div>
-              </td>
-              <td className="px-6 py-5">
-                <Badge variant={campaign.statusVariant as any}>{campaign.status}</Badge>
-              </td>
-              <td className="px-6 py-5">
-                <div className="text-sm">
-                  <p className="text-slate-900 dark:text-slate-100 font-medium">
-                    {campaign.startDate}
-                  </p>
-                  <p className="text-slate-500 text-xs">{campaign.endDate}</p>
-                </div>
-              </td>
-              <td className="px-6 py-5">
-                <div className="space-y-1.5">
-                  <div className="flex justify-between text-xs font-medium">
-                    <span>{campaign.spent} / {campaign.budget}</span>
-                    <span>{campaign.progress}</span>
-                  </div>
-                  <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+              <tr
+                key={i}
+                className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors"
+              >
+                <td className="px-6 py-5">
+                  <div className="flex items-center gap-3">
                     <div
-                      className="h-full bg-primary rounded-full"
-                      style={{ width: campaign.progress }}
-                    ></div>
+                      className={`size-10 rounded-lg ${campaign.iconBg} flex items-center justify-center ${campaign.iconColor}`}
+                    >
+                      <span className="material-symbols-outlined">
+                        {campaign.icon}
+                      </span>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-slate-900 dark:text-slate-100">
+                        {campaign.name}
+                      </p>
+                      <p className="text-xs text-slate-500">{campaign.type}</p>
+                    </div>
                   </div>
-                </div>
-              </td>
-              <td className="px-6 py-5 text-right">
-                <button className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
-                  <span className="material-symbols-outlined">more_vert</span>
-                </button>
-              </td>
-            </tr>
-          ))}
+                </td>
+                <td className="px-6 py-5">
+                  <Badge variant={campaign.statusVariant as any}>
+                    {campaign.status}
+                  </Badge>
+                </td>
+                <td className="px-6 py-5">
+                  <div className="text-sm">
+                    <p className="text-slate-900 dark:text-slate-100 font-medium">
+                      {campaign.startDate}
+                    </p>
+                    <p className="text-slate-500 text-xs">{campaign.endDate}</p>
+                  </div>
+                </td>
+                <td className="px-6 py-5">
+                  <div className="space-y-1.5">
+                    <div className="flex justify-between text-xs font-medium">
+                      <span>
+                        {campaign.spent} / {campaign.budget}
+                      </span>
+                      <span>{campaign.progress}</span>
+                    </div>
+                    <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-primary rounded-full"
+                        style={{ width: campaign.progress }}
+                      ></div>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-6 py-5 text-right">
+                  <button className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                    <span className="material-symbols-outlined">more_vert</span>
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
