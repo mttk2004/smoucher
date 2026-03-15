@@ -1,4 +1,4 @@
-import { Outlet, Link } from "react-router";
+import { Outlet, NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
 
@@ -24,68 +24,78 @@ export default function DashboardLayout() {
           </div>
         </div>
         <nav className="flex-1 px-4 space-y-1 overflow-y-auto">
-          <Link
-            className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg bg-primary/10 text-primary"
+          <NavLink
+            end
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg ${isActive ? "bg-primary/10 text-primary" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"}`
+            }
             to="/"
           >
             <span className="material-symbols-outlined">dashboard</span>
             {t("nav.dashboard")}
-          </Link>
-          <Link
-            className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg ${isActive ? "bg-primary/10 text-primary" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"}`
+            }
             to="/campaigns"
           >
             <span className="material-symbols-outlined">campaign</span>
             {t("nav.campaigns")}
-          </Link>
-          <Link
-            className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg ${isActive ? "bg-primary/10 text-primary" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"}`
+            }
             to="/vouchers"
           >
             <span className="material-symbols-outlined">payments</span>
             {t("nav.vouchers")}
-          </Link>
-          <Link
-            className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg ${isActive ? "bg-primary/10 text-primary" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"}`
+            }
             to="/history"
           >
             <span className="material-symbols-outlined">bar_chart</span>
             {t("nav.analytics")}
-          </Link>
-          <Link
-            className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg ${isActive ? "bg-primary/10 text-primary" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"}`
+            }
             to="/customers"
           >
             <span className="material-symbols-outlined">group</span>
             {t("nav.customers")}
-          </Link>
+          </NavLink>
           <div className="pt-4 pb-2">
             <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
               {t("nav.system")}
             </p>
           </div>
-          <Link
-            className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"
+          <NavLink
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg ${isActive || (typeof window !== "undefined" && window.location.pathname.startsWith("/settings")) ? "bg-primary/10 text-primary" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"}`
+            }
             to="/settings/api-keys"
           >
             <span className="material-symbols-outlined">settings</span>
             {t("nav.settings")}
-          </Link>
-          <Link
-            className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg ${isActive ? "bg-primary/10 text-primary" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"}`
+            }
             to="#"
           >
             <span className="material-symbols-outlined">help</span>
             {t("nav.support")}
-          </Link>
+          </NavLink>
         </nav>
-        <div className="p-4 border-t border-slate-200 dark:border-slate-800">
-          <button className="w-full flex items-center gap-3 px-3 py-2.5 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors">
-            <span className="material-symbols-outlined text-lg">
-              add_circle
-            </span>
-            {t("common.createCampaign")}
-          </button>
+        <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex justify-center">
+          <LanguageSwitcher />
         </div>
       </aside>
 
@@ -104,7 +114,12 @@ export default function DashboardLayout() {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <LanguageSwitcher />
+            <button className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors">
+              <span className="material-symbols-outlined text-lg">
+                add_circle
+              </span>
+              {t("common.createCampaign")}
+            </button>
             <button className="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-900 rounded-lg relative">
               <span className="material-symbols-outlined">notifications</span>
               <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 border-2 border-white dark:border-slate-950 rounded-full"></span>
