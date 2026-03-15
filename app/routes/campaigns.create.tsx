@@ -1,4 +1,5 @@
 import type { Route } from "./+types/campaigns.create";
+import { useTranslation } from "react-i18next";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -8,6 +9,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function CreateCampaign() {
+  const { t } = useTranslation();
   return (
     <>
       <div className="w-full max-w-3xl flex flex-col gap-8">
@@ -23,13 +25,14 @@ export default function CreateCampaign() {
               Back to campaigns
             </a>
           </div>
-          <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white">
-            Create New Campaign
-          </h1>
-          <p className="text-slate-500 dark:text-slate-400">
-            Launch a new marketing initiative to boost your engagement and
-            sales.
-          </p>
+          <div className="space-y-1">
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+              {t("campaignsCreate.title")}
+            </h1>
+            <p className="text-slate-500 dark:text-slate-400">
+              {t("campaignsCreate.description")}
+            </p>
+          </div>
         </div>
 
         <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">

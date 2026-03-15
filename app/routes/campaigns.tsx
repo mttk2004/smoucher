@@ -1,4 +1,5 @@
 import type { Route } from "./+types/campaigns";
+import { useTranslation } from "react-i18next";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -8,15 +9,16 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Campaigns() {
+  const { t } = useTranslation();
   return (
     <>
-      <div className="w-full flex flex-col gap-6">
-        <div className="mb-8">
-          <h2 className="text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
-            Marketing Campaigns
-          </h2>
-          <p className="text-slate-500 mt-1">
-            Manage, monitor, and optimize your smoucher brand promotions.
+      <div className="flex flex-col gap-8">
+        <div className="space-y-1">
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+            {t("campaigns.title")}
+          </h1>
+          <p className="text-slate-500 dark:text-slate-400">
+            {t("campaigns.description")}
           </p>
         </div>
 

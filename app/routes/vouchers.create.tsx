@@ -1,4 +1,5 @@
 import type { Route } from "./+types/vouchers.create";
+import { useTranslation } from "react-i18next";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -8,17 +9,17 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function CreateVoucher() {
+  const { t } = useTranslation();
   return (
     <>
       <div className="layout-content-container flex flex-col max-w-[1024px] flex-1 gap-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-4">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-slate-900 dark:text-slate-100 tracking-tight text-3xl font-extrabold">
-              Create New Voucher
+          <div className="space-y-1">
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+              {t("vouchersCreate.title")}
             </h1>
-            <p className="text-slate-500 dark:text-slate-400 text-sm">
-              Configure discount logic, eligibility criteria, and distribution
-              settings for your Smoucher campaign.
+            <p className="text-slate-500 dark:text-slate-400">
+              {t("vouchersCreate.description")}
             </p>
           </div>
           <div className="flex gap-3">

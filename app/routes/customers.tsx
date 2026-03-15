@@ -1,4 +1,5 @@
 import type { Route } from "./+types/customers";
+import { useTranslation } from "react-i18next";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -12,17 +13,17 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Customers() {
+  const { t } = useTranslation();
   return (
     <>
-      <div className="flex-1 overflow-y-auto p-8">
-        <div className="flex justify-between items-end mb-8">
-          <div>
-            <h2 className="text-3xl font-extrabold tracking-tight">
-              Customer Directory
-            </h2>
-            <p className="text-slate-500 dark:text-slate-400 mt-1">
-              Centralized view of internal Smoucher IDs and external system
-              mappings.
+      <div className="flex-1 overflow-y-auto p-8 flex flex-col gap-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div className="space-y-1">
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+              {t("customers.title")}
+            </h1>
+            <p className="text-slate-500 dark:text-slate-400">
+              {t("customers.description")}
             </p>
           </div>
           <div className="flex gap-2">
@@ -35,7 +36,7 @@ export default function Customers() {
           </div>
         </div>
 
-        <div className="flex items-center gap-3 mb-6 overflow-x-auto pb-2">
+        <div className="flex items-center gap-3 overflow-x-auto pb-2">
           <button className="flex items-center gap-2 px-3 py-1.5 bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 rounded-lg text-xs font-semibold whitespace-nowrap">
             All Customers
           </button>
@@ -257,6 +258,6 @@ export default function Customers() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

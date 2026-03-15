@@ -1,4 +1,5 @@
 import type { Route } from "./+types/vouchers";
+import { useTranslation } from "react-i18next";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -11,15 +12,16 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Vouchers() {
+  const { t } = useTranslation();
   return (
-    <>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div className="space-y-1">
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100">
-            Voucher Inventory
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+            {t("vouchers.title")}
           </h1>
-          <p className="text-slate-500 dark:text-slate-400 text-base">
-            Manage, track, and export your unique voucher issuance data.
+          <p className="text-slate-500 dark:text-slate-400">
+            {t("vouchers.description")}
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -37,7 +39,7 @@ export default function Vouchers() {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 mb-6 shadow-sm">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm">
         <div className="flex flex-col lg:flex-row gap-4">
           <div className="relative flex-1">
             <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">
@@ -378,6 +380,6 @@ export default function Vouchers() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -1,4 +1,5 @@
 import type { Route } from "./+types/distribution";
+import { useTranslation } from "react-i18next";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -12,16 +13,16 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Distribution() {
+  const { t } = useTranslation();
   return (
-    <>
+    <div className="flex flex-col gap-8">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div className="flex flex-col gap-1">
-          <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-            Distribution Center
+        <div className="space-y-1">
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+            {t("distribution.title")}
           </h1>
           <p className="text-slate-500 dark:text-slate-400">
-            Manage and monitor the real-time delivery status of your digital
-            vouchers.
+            {t("distribution.description")}
           </p>
         </div>
         <div className="flex gap-3">
@@ -358,6 +359,6 @@ export default function Distribution() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

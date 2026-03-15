@@ -14,13 +14,15 @@ export default function Home() {
   const { t } = useTranslation();
 
   return (
-    <>
+    <div className="flex flex-col gap-8">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div>
-          <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+        <div className="space-y-1">
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
             {t("dashboard.title")}
-          </h2>
-          <p className="text-slate-500 mt-1">{t("dashboard.description")}</p>
+          </h1>
+          <p className="text-slate-500 dark:text-slate-400">
+            {t("dashboard.description")}
+          </p>
         </div>
         <div className="flex gap-3">
           <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-700 bg-white border border-slate-200 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
@@ -457,6 +459,6 @@ export default function Home() {
           </table>
         </div>
       </div>
-    </>
+    </div>
   );
 }

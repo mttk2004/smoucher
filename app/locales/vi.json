@@ -49,5 +49,33 @@
     "apiKeys": "Khóa API",
     "apiLogs": "Nhật ký API",
     "users": "Người Dùng"
+  },
+  "campaigns": {
+    "title": "Chiến Dịch",
+    "description": "Quản lý, theo dõi và tối ưu hóa các chương trình khuyến mãi thương hiệu smoucher của bạn."
+  },
+  "vouchers": {
+    "title": "Kho Khuyến Mãi",
+    "description": "Quản lý, theo dõi và xuất dữ liệu phát hành mã khuyến mãi duy nhất của bạn."
+  },
+  "history": {
+    "title": "Lịch Sử Sử Dụng",
+    "description": "Bản ghi chi tiết về tất cả các lần đổi mã trên tất cả các chi nhánh của bạn."
+  },
+  "customers": {
+    "title": "Danh Mục Khách Hàng",
+    "description": "Chế độ xem tập trung của các ID Smoucher nội bộ và các bản đồ hệ thống bên ngoài."
+  },
+  "distribution": {
+    "title": "Trung Tâm Phân Phối",
+    "description": "Quản lý và giám sát trạng thái giao hàng theo thời gian thực của các mã khuyến mãi kỹ thuật số của bạn."
+  },
+  "campaignsCreate": {
+    "title": "Tạo Chiến Dịch Mới",
+    "description": "Khởi chạy một sáng kiến tiếp thị mới để tăng cường sự tham gia của bạn và doanh số."
+  },
+  "vouchersCreate": {
+    "title": "Tạo Mã Khuyến Mãi Mới",
+    "description": "Định cấu hình logic giảm giá, tiêu chí đủ điều kiện và cài đặt phân phối cho chiến dịch Smoucher của bạn."
   }
 }

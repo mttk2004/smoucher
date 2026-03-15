@@ -1,4 +1,5 @@
 import type { Route } from "./+types/history";
+import { useTranslation } from "react-i18next";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -11,15 +12,16 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function History() {
+  const { t } = useTranslation();
   return (
-    <>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div className="space-y-1">
           <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-            Usage History
+            {t("history.title")}
           </h1>
           <p className="text-slate-500 dark:text-slate-400">
-            Detailed record of all voucher redemptions across your branches.
+            {t("history.description")}
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -353,6 +355,6 @@ export default function History() {
           </p>
         </div>
       </div>
-    </>
+    </div>
   );
 }

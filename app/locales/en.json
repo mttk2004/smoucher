@@ -49,5 +49,33 @@
     "apiKeys": "API Keys",
     "apiLogs": "API Logs",
     "users": "Users"
+  },
+  "campaigns": {
+    "title": "Marketing Campaigns",
+    "description": "Manage, monitor, and optimize your smoucher brand promotions."
+  },
+  "vouchers": {
+    "title": "Voucher Inventory",
+    "description": "Manage, track, and export your unique voucher issuance data."
+  },
+  "history": {
+    "title": "Usage History",
+    "description": "Detailed record of all voucher redemptions across your branches."
+  },
+  "customers": {
+    "title": "Customer Directory",
+    "description": "Centralized view of internal Smoucher IDs and external system mappings."
+  },
+  "distribution": {
+    "title": "Distribution Center",
+    "description": "Manage and monitor the real-time delivery status of your digital vouchers."
+  },
+  "campaignsCreate": {
+    "title": "Create New Campaign",
+    "description": "Launch a new marketing initiative to boost your engagement and sales."
+  },
+  "vouchersCreate": {
+    "title": "Create New Voucher",
+    "description": "Configure discount logic, eligibility criteria, and distribution settings for your Smoucher campaign."
   }
 }
