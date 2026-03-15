@@ -2,6 +2,19 @@ import type { Route } from "./+types/login";
 
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useLogin } from "../hooks/useAuth";
+import { useNavigate } from "react-router";
+import { useState } from "react";
+
+const loginSchema = z.object({
+  username: z.string().min(1, { message: "Username is required" }),
+  password: z.string().min(1, { message: "Password is required" }),
+});
+
+type LoginFormValues = z.infer<typeof loginSchema>;
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -12,6 +25,26 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Login() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const loginMutation = useLogin();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const onSubmit = (data: LoginFormValues) => {
+    loginMutation.mutate(data, {
+      onSuccess: () => {
+        navigate("/");
+      },
+    });
+  };
+
   return (
     <div className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
       <header className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 px-6 py-4 bg-white dark:bg-background-dark/50 backdrop-blur-md sticky top-0 z-50">
@@ -53,20 +86,30 @@ export default function Login() {
               </p>
             </div>
 
-            <form className="flex flex-col gap-5">
+            <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
+              {loginMutation.isError && (
+                <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                  {loginMutation.error.message}
+                </div>
+              )}
+
               <div className="flex flex-col gap-1.5">
                 <label
                   className="text-sm font-medium text-slate-700 dark:text-slate-300"
-                  htmlFor="email"
+                  htmlFor="username"
                 >
                   {t("login.emailLabel")}
                 </label>
                 <input
-                  className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm ring-offset-white placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  id="email"
+                  {...register("username")}
+                  className={`flex h-11 w-full rounded-lg border ${errors.username ? 'border-red-500' : 'border-slate-200 dark:border-slate-800'} bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm ring-offset-white placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
+                  id="username"
                   placeholder={t("login.emailPlaceholder")}
-                  type="email"
+                  type="text"
                 />
+                {errors.username && (
+                  <span className="text-xs text-red-500">{errors.username.message}</span>
+                )}
               </div>
 
               <div className="flex flex-col gap-1.5">
@@ -86,27 +129,33 @@ export default function Login() {
                 </div>
                 <div className="relative">
                   <input
-                    className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm ring-offset-white placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    {...register("password")}
+                    className={`flex h-11 w-full rounded-lg border ${errors.password ? 'border-red-500' : 'border-slate-200 dark:border-slate-800'} bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm ring-offset-white placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
                     id="password"
                     placeholder={t("login.passwordPlaceholder")}
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                   />
                   <button
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
                     type="button"
+                    onClick={() => setShowPassword(!showPassword)}
                   >
                     <span className="material-symbols-outlined text-[20px]">
-                      visibility
+                      {showPassword ? "visibility_off" : "visibility"}
                     </span>
                   </button>
                 </div>
+                {errors.password && (
+                  <span className="text-xs text-red-500">{errors.password.message}</span>
+                )}
               </div>
 
               <button
-                className="flex h-11 w-full items-center justify-center rounded-lg bg-primary px-8 text-sm font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                className="flex h-11 w-full items-center justify-center rounded-lg bg-primary px-8 text-sm font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:opacity-50"
                 type="submit"
+                disabled={loginMutation.isPending}
               >
-                {t("login.signIn")}
+                {loginMutation.isPending ? "Signing in..." : t("login.signIn")}
               </button>
             </form>
 
