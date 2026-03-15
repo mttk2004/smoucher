@@ -42,5 +42,12 @@
     "search": "Search...",
     "adminPanel": "Admin Panel",
     "marketingDirector": "Marketing Director"
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Manage system configuration, API access, and user accounts.",
+    "apiKeys": "API Keys",
+    "apiLogs": "API Logs",
+    "users": "Users"
   }
 }

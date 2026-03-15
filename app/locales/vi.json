@@ -42,5 +42,12 @@
     "search": "Tìm kiếm...",
     "adminPanel": "Bảng Quản Trị",
     "marketingDirector": "Giám Đốc Tiếp Thị"
+  },
+  "settings": {
+    "title": "Cài Đặt",
+    "description": "Quản lý cấu hình hệ thống, quyền truy cập API và tài khoản người dùng.",
+    "apiKeys": "Khóa API",
+    "apiLogs": "Nhật ký API",
+    "users": "Người Dùng"
   }
 }
