@@ -6,7 +6,7 @@ export default function DashboardLayout() {
   const { t } = useTranslation();
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       <aside className="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 flex flex-col shrink-0">
         <div className="p-6 flex items-center gap-3">
           <div className="bg-primary rounded-lg p-1.5 flex items-center justify-center">
@@ -83,15 +83,6 @@ export default function DashboardLayout() {
           >
             <span className="material-symbols-outlined">settings</span>
             {t("nav.settings")}
-          </NavLink>
-          <NavLink
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg ${isActive ? "bg-primary/10 text-primary" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"}`
-            }
-            to="#"
-          >
-            <span className="material-symbols-outlined">help</span>
-            {t("nav.support")}
           </NavLink>
         </nav>
         <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex justify-center">
