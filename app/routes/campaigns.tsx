@@ -80,42 +80,22 @@ export default function Campaigns() {
       />
 
       <div className="flex items-center gap-2 mb-6 border-b border-slate-200 dark:border-slate-800 pb-px">
-        <button className="px-4 py-2 text-sm font-semibold text-primary border-b-2 border-primary">
-          All Campaigns
-        </button>
-        <button className="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors">
-          Active
-        </button>
-        <button className="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors">
-          Drafts
-        </button>
-        <button className="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors">
-          Paused
-        </button>
-        <button className="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors">
-          Ended
-        </button>
+        <button className="px-4 py-2 text-sm font-semibold text-primary border-b-2 border-primary">{t("filters.allCampaigns")}</button>
+        <button className="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors">{t("filters.active")}</button>
+        <button className="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors">{t("filters.drafts")}</button>
+        <button className="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors">{t("filters.paused")}</button>
+        <button className="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors">{t("filters.ended")}</button>
       </div>
 
       <div className="bg-white dark:bg-background-dark border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm overflow-hidden @container">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800">
-              <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 w-[35%]">
-                Campaign Details
-              </th>
-              <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">
-                Status
-              </th>
-              <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">
-                Duration
-              </th>
-              <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 w-[20%]">
-                Budget Utilization
-              </th>
-              <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-right">
-                Actions
-              </th>
+              <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 w-[35%]">{t("table.campaignDetails")}</th>
+              <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">{t("table.status")}</th>
+              <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">{t("table.duration")}</th>
+              <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 w-[20%]">{t("table.budgetUtilization")}</th>
+              <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-right">{t("table.actions")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-200 dark:divide-slate-800">

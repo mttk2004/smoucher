@@ -74,15 +74,13 @@ export default function Vouchers() {
             <button className="inline-flex items-center justify-center gap-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 text-sm font-medium text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
               <span className="material-symbols-outlined text-lg">
                 download
-              </span>
-              Export CSV
-            </button>
+              </span>{t("table.exportCsv")}</button>
             <a
               href="/vouchers/create"
               className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 transition-colors shadow-sm"
             >
               <span className="material-symbols-outlined text-lg">add</span>
-              Create Vouchers
+              {t("vouchers.createBtn")}
             </a>
           </>
         }
@@ -101,24 +99,16 @@ export default function Vouchers() {
             />
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <button className="px-4 py-2 rounded-lg bg-primary text-white text-xs font-semibold shadow-sm">
-              All Vouchers
-            </button>
-            <button className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-              Issued
-            </button>
-            <button className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-              Redeemed
-            </button>
-            <button className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-              Expired
-            </button>
+            <button className="px-4 py-2 rounded-lg bg-primary text-white text-xs font-semibold shadow-sm">{t("filters.allVouchers")}</button>
+            <button className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">{t("table.issued")}</button>
+            <button className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">{t("filters.redeemed")}</button>
+            <button className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">{t("filters.expired")}</button>
             <div className="h-6 w-px bg-slate-200 dark:bg-slate-800 mx-1"></div>
             <button className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
               <span className="material-symbols-outlined text-base">
                 filter_list
               </span>
-              More Filters
+              {t("filters.moreFilters")}
             </button>
           </div>
         </div>
@@ -129,24 +119,12 @@ export default function Vouchers() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
-                <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Voucher Code
-                </th>
-                <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Customer
-                </th>
-                <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Campaign
-                </th>
-                <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Expiry Date
-                </th>
-                <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">
-                  Actions
-                </th>
+                <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">{t("table.voucherCode")}</th>
+                <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">{t("table.status")}</th>
+                <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">{t("table.customer")}</th>
+                <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">{t("table.campaign")}</th>
+                <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">{t("table.expiryDate")}</th>
+                <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">{t("table.actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200 dark:divide-slate-800">

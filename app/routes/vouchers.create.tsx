@@ -24,7 +24,7 @@ export default function CreateVoucher() {
                   href="/vouchers"
                   className="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-5 bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm font-bold hover:bg-slate-300 transition-colors"
                 >
-                  <span className="truncate">Cancel</span>
+                  <span className="truncate">{t("vouchersCreate.cancelBtn")}</span>
                 </a>
                 <button className="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold hover:opacity-90 transition-opacity">
                   <span className="truncate">Save Voucher</span>
@@ -46,7 +46,7 @@ export default function CreateVoucher() {
               <div className="grid grid-cols-1 gap-4">
                 <div className="flex flex-col gap-2">
                   <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                    Voucher Name
+                    {t("vouchersCreate.nameLabel")}
                   </label>
                   <input
                     className="w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:border-primary focus:ring-primary text-sm p-3"
@@ -76,14 +76,14 @@ export default function CreateVoucher() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-3">
                   <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                    Discount Type
+                    {t("vouchersCreate.typeLabel")}
                   </label>
                   <div className="flex p-1 bg-slate-100 dark:bg-slate-800 rounded-lg">
                     <button className="flex-1 py-2 text-sm font-medium rounded-md bg-white dark:bg-slate-700 shadow-sm text-primary">
                       Percentage
                     </button>
                     <button className="flex-1 py-2 text-sm font-medium text-slate-500 dark:text-slate-400">
-                      Fixed Amount
+                      {t("vouchersCreate.typeFixed")}
                     </button>
                   </div>
                 </div>
@@ -94,7 +94,7 @@ export default function CreateVoucher() {
                   <div className="relative">
                     <input
                       className="w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:border-primary focus:ring-primary text-sm p-3 pr-10"
-                      placeholder="0"
+                      placeholder={t("vouchersCreate.valuePlaceholder")}
                       type="number"
                     />
                     <span className="absolute right-3 top-3 text-slate-400 font-bold">

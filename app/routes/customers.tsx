@@ -67,26 +67,22 @@ export default function Customers() {
         description={t("customers.description")}
         actions={
           <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
-            <span className="material-symbols-outlined text-lg">download</span>
-            Export CSV
-          </button>
+            <span className="material-symbols-outlined text-lg">download</span>{t("table.exportCsv")}</button>
         }
       />
 
       <div className="flex items-center gap-3 overflow-x-auto pb-2">
-        <button className="flex items-center gap-2 px-3 py-1.5 bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 rounded-lg text-xs font-semibold whitespace-nowrap">
-          All Customers
-        </button>
+        <button className="flex items-center gap-2 px-3 py-1.5 bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 rounded-lg text-xs font-semibold whitespace-nowrap">{t("filters.allCustomers")}</button>
         <button className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium hover:bg-slate-50 dark:hover:bg-slate-700 whitespace-nowrap">
-          Tier: Gold{" "}
+          {t("filters.tierGold")}{" "}
           <span className="material-symbols-outlined text-sm">expand_more</span>
         </button>
         <button className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium hover:bg-slate-50 dark:hover:bg-slate-700 whitespace-nowrap">
-          External System{" "}
+          {t("filters.externalSystem")}{" "}
           <span className="material-symbols-outlined text-sm">expand_more</span>
         </button>
         <button className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium hover:bg-slate-50 dark:hover:bg-slate-700 whitespace-nowrap">
-          Last Active{" "}
+          {t("filters.lastActive")}{" "}
           <span className="material-symbols-outlined text-sm">
             calendar_month
           </span>
@@ -98,24 +94,12 @@ export default function Customers() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
-                <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                  Customer Name
-                </th>
-                <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                  Email Address
-                </th>
-                <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                  Smoucher ID
-                </th>
-                <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                  External System ID
-                </th>
-                <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-center">
-                  Loyalty Tier
-                </th>
-                <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">
-                  Action
-                </th>
+                <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t("table.customerName")}</th>
+                <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t("table.emailAddress")}</th>
+                <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t("table.smoucherId")}</th>
+                <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t("table.externalSystemId")}</th>
+                <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-center">{t("table.loyaltyTier")}</th>
+                <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">{t("table.action")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">

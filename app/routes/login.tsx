@@ -1,5 +1,6 @@
 import type { Route } from "./+types/login";
 
+import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
 
 export function meta({}: Route.MetaArgs) {
@@ -10,6 +11,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Login() {
+  const { t } = useTranslation();
   return (
     <div className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
       <header className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 px-6 py-4 bg-white dark:bg-background-dark/50 backdrop-blur-md sticky top-0 z-50">
@@ -44,10 +46,10 @@ export default function Login() {
           <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 p-8 rounded-xl shadow-xl shadow-primary/5">
             <div className="flex flex-col gap-2 mb-8 text-center">
               <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
-                Sign in to your account
+                {t("login.heading")}
               </h2>
               <p className="text-slate-500 dark:text-slate-400 text-sm">
-                Enter your credentials to access your voucher dashboard
+                {t("login.subheading")}
               </p>
             </div>
 
@@ -57,12 +59,12 @@ export default function Login() {
                   className="text-sm font-medium text-slate-700 dark:text-slate-300"
                   htmlFor="email"
                 >
-                  Email address
+                  {t("login.emailLabel")}
                 </label>
                 <input
                   className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm ring-offset-white placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   id="email"
-                  placeholder="name@company.com"
+                  placeholder={t("login.emailPlaceholder")}
                   type="email"
                 />
               </div>
@@ -73,20 +75,20 @@ export default function Login() {
                     className="text-sm font-medium text-slate-700 dark:text-slate-300"
                     htmlFor="password"
                   >
-                    Password
+                    {t("login.passwordLabel")}
                   </label>
                   <a
                     className="text-sm font-medium text-primary hover:underline underline-offset-4"
                     href="#"
                   >
-                    Forgot password?
+                    {t("login.forgotPassword")}
                   </a>
                 </div>
                 <div className="relative">
                   <input
                     className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm ring-offset-white placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     id="password"
-                    placeholder="••••••••"
+                    placeholder={t("login.passwordPlaceholder")}
                     type="password"
                   />
                   <button
@@ -104,17 +106,17 @@ export default function Login() {
                 className="flex h-11 w-full items-center justify-center rounded-lg bg-primary px-8 text-sm font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 type="submit"
               >
-                Sign In
+                {t("login.signIn")}
               </button>
             </form>
 
             <p className="mt-8 text-center text-sm text-slate-500 dark:text-slate-400">
-              Don't have an account?
+              {t("login.noAccount")}
               <a
                 className="font-medium text-primary hover:underline underline-offset-4 ml-1"
                 href="#"
               >
-                Contact Sales
+                {t("login.contactSales")}
               </a>
             </p>
           </div>
@@ -139,11 +141,10 @@ export default function Login() {
             </div>
             <div className="space-y-1">
               <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
-                Trusted by 500+ retailers
+                {t("login.trustedBy")}
               </p>
               <p className="text-xs text-slate-500 dark:text-slate-400 max-w-[280px]">
-                Automate your voucher issuance and redemption workflow
-                effortlessly.
+                {t("login.trustedDesc")}
               </p>
             </div>
           </div>
@@ -151,13 +152,13 @@ export default function Login() {
       </main>
 
       <footer className="p-6 text-center text-xs text-slate-400 dark:text-slate-600">
-        © 2024 Smoucher Inc. All rights reserved.
+        {t("login.copyright")}
         <div className="mt-2 space-x-4">
           <a className="hover:text-primary" href="#">
-            Privacy Policy
+            {t("login.privacy")}
           </a>
           <a className="hover:text-primary" href="#">
-            Terms of Service
+            {t("login.terms")}
           </a>
         </div>
       </footer>

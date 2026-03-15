@@ -23,7 +23,7 @@ export default function CreateCampaign() {
               className="text-sm font-medium hover:underline"
               href="/campaigns"
             >
-              Back to campaigns
+              {t("campaignsCreate.back")}
             </a>
           </div>
           <PageHeader
@@ -39,21 +39,21 @@ export default function CreateCampaign() {
                 <span className="size-6 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold">
                   1
                 </span>
-                <span className="font-semibold text-sm">Basic Info</span>
+                <span className="font-semibold text-sm">{t("campaignsCreate.step1")}</span>
               </div>
               <div className="h-[1px] w-8 bg-slate-200 dark:bg-slate-800"></div>
               <div className="flex items-center gap-2 text-slate-400">
                 <span className="size-6 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-bold">
                   2
                 </span>
-                <span className="font-medium text-sm">Targeting</span>
+                <span className="font-medium text-sm">{t("campaignsCreate.step2")}</span>
               </div>
               <div className="h-[1px] w-8 bg-slate-200 dark:bg-slate-800"></div>
               <div className="flex items-center gap-2 text-slate-400">
                 <span className="size-6 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-bold">
                   3
                 </span>
-                <span className="font-medium text-sm">Review</span>
+                <span className="font-medium text-sm">{t("campaignsCreate.step3")}</span>
               </div>
             </div>
 
@@ -63,16 +63,16 @@ export default function CreateCampaign() {
                   className="text-sm font-semibold text-slate-700 dark:text-slate-300"
                   htmlFor="campaign-name"
                 >
-                  Campaign Name
+                  {t("campaignsCreate.nameLabel")}
                 </label>
                 <input
                   className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all"
                   id="campaign-name"
-                  placeholder="e.g. Summer Flash Sale 2024"
+                  placeholder={t("campaignsCreate.namePlaceholder")}
                   type="text"
                 />
                 <p className="text-[12px] text-slate-500">
-                  This is how your campaign will appear in reports.
+                  {t("campaignsCreate.nameHelp")}
                 </p>
               </div>
 
@@ -86,7 +86,7 @@ export default function CreateCampaign() {
                 <textarea
                   className="flex min-h-[100px] w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all"
                   id="description"
-                  placeholder="Describe the objectives of this campaign..."
+                  placeholder={t("campaignsCreate.descPlaceholder")}
                   rows={4}
                 ></textarea>
               </div>
@@ -97,7 +97,7 @@ export default function CreateCampaign() {
                     className="text-sm font-semibold text-slate-700 dark:text-slate-300"
                     htmlFor="start-date"
                   >
-                    Start Date
+                    {t("campaignsCreate.startDate")}
                   </label>
                   <div className="relative">
                     <input
@@ -115,7 +115,7 @@ export default function CreateCampaign() {
                     className="text-sm font-semibold text-slate-700 dark:text-slate-300"
                     htmlFor="end-date"
                   >
-                    End Date
+                    {t("campaignsCreate.endDate")}
                   </label>
                   <div className="relative">
                     <input
@@ -136,7 +136,7 @@ export default function CreateCampaign() {
                     className="text-sm font-semibold text-slate-700 dark:text-slate-300"
                     htmlFor="budget"
                   >
-                    Total Budget
+                    {t("campaignsCreate.budget")}
                   </label>
                   <div className="relative flex items-center">
                     <span className="absolute left-3 text-slate-500 font-medium">
@@ -155,7 +155,7 @@ export default function CreateCampaign() {
                     className="text-sm font-semibold text-slate-700 dark:text-slate-300"
                     htmlFor="currency"
                   >
-                    Currency
+                    {t("campaignsCreate.currency")}
                   </label>
                   <select
                     className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-all appearance-none bg-no-repeat bg-[right_0.5rem_center]"
@@ -212,7 +212,7 @@ export default function CreateCampaign() {
                 Cancel
               </a>
               <button className="px-6 py-2 rounded-lg text-sm font-semibold bg-primary text-white hover:bg-primary/90 shadow-md shadow-primary/20 transition-all">
-                Continue to Targeting
+                Continue to {t("campaignsCreate.step2")}
               </button>
             </div>
           </div>

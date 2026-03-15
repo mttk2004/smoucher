@@ -71,9 +71,7 @@ export default function History() {
         description={t("history.description")}
         actions={
           <button className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg font-medium text-sm hover:opacity-90 transition-opacity">
-            <span className="material-symbols-outlined text-sm">download</span>
-            Export CSV
-          </button>
+            <span className="material-symbols-outlined text-sm">download</span>{t("table.exportCsv")}</button>
         }
       />
 
@@ -95,7 +93,7 @@ export default function History() {
                 <span className="material-symbols-outlined text-sm">
                   calendar_today
                 </span>
-                Date Range
+                {t("filters.dateRange")}
                 <span className="material-symbols-outlined text-sm">
                   keyboard_arrow_down
                 </span>
@@ -104,7 +102,7 @@ export default function History() {
                 <span className="material-symbols-outlined text-sm">
                   storefront
                 </span>
-                Branch
+                {t("filters.branch")}
                 <span className="material-symbols-outlined text-sm">
                   keyboard_arrow_down
                 </span>
@@ -122,21 +120,11 @@ export default function History() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50/50 dark:bg-slate-900/50">
-                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">
-                  External Order ID
-                </th>
-                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">
-                  Branch Location
-                </th>
-                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800 text-right">
-                  Discount Amount
-                </th>
-                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">
-                  Status
-                </th>
-                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">
-                  Timestamp
-                </th>
+                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">{t("table.externalOrderId")}</th>
+                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">{t("table.branchLocation")}</th>
+                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800 text-right">{t("table.discountAmount")}</th>
+                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">{t("table.status")}</th>
+                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">{t("table.timestamp")}</th>
                 <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800"></th>
               </tr>
             </thead>
@@ -204,7 +192,7 @@ export default function History() {
             <span className="material-symbols-outlined text-xs mr-1">
               trending_up
             </span>
-            +14% from last month
+            +14% {t("metrics.fromLastMonth")}
           </p>
         </div>
         <div className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 rounded-xl">
@@ -223,7 +211,7 @@ export default function History() {
             <span className="material-symbols-outlined text-xs mr-1">
               trending_up
             </span>
-            +5.2% from last month
+            +5.2% {t("metrics.fromLastMonth")}
           </p>
         </div>
         <div className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 rounded-xl">
@@ -239,7 +227,7 @@ export default function History() {
             76.4%
           </p>
           <p className="text-xs text-slate-500 mt-1 flex items-center font-medium">
-            Stable performance
+            {t("metrics.stablePerformance")}
           </p>
         </div>
       </div>

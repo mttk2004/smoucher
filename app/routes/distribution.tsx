@@ -26,11 +26,11 @@ export default function Distribution() {
               <span className="material-symbols-outlined text-[18px]">
                 file_download
               </span>{" "}
-              Export
+              {t("table.exportCsv")}
             </button>
             <button className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold shadow-lg shadow-primary/20 hover:translate-y-[-1px] transition-all">
               <span className="material-symbols-outlined text-[18px]">add</span>{" "}
-              New Distribution
+              {t("distribution.newDistribution")}
             </button>
           </>
         }
@@ -55,12 +55,12 @@ export default function Distribution() {
             <span className="text-xs font-bold text-green-500">+12.5%</span>
           </div>
           <p className="text-xs text-slate-400">
-            Total email and SMS deliveries
+            {t("metrics.totalEmailSms")}
           </p>
         </div>
         <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-2">
           <div className="flex justify-between items-start">
-            <span className="text-slate-500 text-sm font-medium">Pending</span>
+            <span className="text-slate-500 text-sm font-medium">{t("metrics.pending")}</span>
             <div className="p-2 bg-amber-100 dark:bg-amber-900/30 text-amber-600 rounded-lg">
               <span className="material-symbols-outlined text-[20px]">
                 schedule
@@ -77,7 +77,7 @@ export default function Distribution() {
         </div>
         <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-2">
           <div className="flex justify-between items-start">
-            <span className="text-slate-500 text-sm font-medium">Failed</span>
+            <span className="text-slate-500 text-sm font-medium">{t("metrics.failed")}</span>
             <div className="p-2 bg-red-100 dark:bg-red-900/30 text-red-600 rounded-lg">
               <span className="material-symbols-outlined text-[20px]">
                 error
@@ -91,7 +91,7 @@ export default function Distribution() {
             <span className="text-xs font-bold text-red-500">0.18% Rate</span>
           </div>
           <p className="text-xs text-slate-400">
-            Failed due to invalid addresses
+            {t("distribution.invalidAddresses")}
           </p>
         </div>
       </div>
@@ -130,24 +130,12 @@ export default function Distribution() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">
-                <th className="px-6 py-4 border-b border-slate-200 dark:border-slate-800">
-                  Customer
-                </th>
-                <th className="px-6 py-4 border-b border-slate-200 dark:border-slate-800">
-                  Channel
-                </th>
-                <th className="px-6 py-4 border-b border-slate-200 dark:border-slate-800">
-                  Voucher Link
-                </th>
-                <th className="px-6 py-4 border-b border-slate-200 dark:border-slate-800">
-                  Sent Date
-                </th>
-                <th className="px-6 py-4 border-b border-slate-200 dark:border-slate-800">
-                  Status
-                </th>
-                <th className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 text-right">
-                  Action
-                </th>
+                <th className="px-6 py-4 border-b border-slate-200 dark:border-slate-800">{t("table.customer")}</th>
+                <th className="px-6 py-4 border-b border-slate-200 dark:border-slate-800">{t("table.channel")}</th>
+                <th className="px-6 py-4 border-b border-slate-200 dark:border-slate-800">{t("table.voucherLink")}</th>
+                <th className="px-6 py-4 border-b border-slate-200 dark:border-slate-800">{t("table.sentDate")}</th>
+                <th className="px-6 py-4 border-b border-slate-200 dark:border-slate-800">{t("table.status")}</th>
+                <th className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 text-right">{t("table.action")}</th>
               </tr>
             </thead>
             <tbody className="text-sm divide-y divide-slate-100 dark:divide-slate-800">
