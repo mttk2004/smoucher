@@ -1,5 +1,6 @@
 import type { Route } from "./+types/vouchers.create";
 import { useTranslation } from "react-i18next";
+import { PageHeader } from "../components/PageHeader";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -13,26 +14,24 @@ export default function CreateVoucher() {
   return (
     <>
       <div className="layout-content-container flex flex-col max-w-[1024px] flex-1 gap-8">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-4">
-          <div className="space-y-1">
-            <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-              {t("vouchersCreate.title")}
-            </h1>
-            <p className="text-slate-500 dark:text-slate-400">
-              {t("vouchersCreate.description")}
-            </p>
-          </div>
-          <div className="flex gap-3">
-            <a
-              href="/vouchers"
-              className="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-5 bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm font-bold hover:bg-slate-300 transition-colors"
-            >
-              <span className="truncate">Cancel</span>
-            </a>
-            <button className="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold hover:opacity-90 transition-opacity">
-              <span className="truncate">Save Voucher</span>
-            </button>
-          </div>
+        <div className="px-4">
+          <PageHeader
+            title={t("vouchersCreate.title")}
+            description={t("vouchersCreate.description")}
+            actions={
+              <>
+                <a
+                  href="/vouchers"
+                  className="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-5 bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm font-bold hover:bg-slate-300 transition-colors"
+                >
+                  <span className="truncate">Cancel</span>
+                </a>
+                <button className="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold hover:opacity-90 transition-opacity">
+                  <span className="truncate">Save Voucher</span>
+                </button>
+              </>
+            }
+          />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

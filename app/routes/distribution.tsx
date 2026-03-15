@@ -1,5 +1,6 @@
 import type { Route } from "./+types/distribution";
 import { useTranslation } from "react-i18next";
+import { PageHeader } from "../components/PageHeader";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -16,28 +17,24 @@ export default function Distribution() {
   const { t } = useTranslation();
   return (
     <div className="flex flex-col gap-8">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div className="space-y-1">
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {t("distribution.title")}
-          </h1>
-          <p className="text-slate-500 dark:text-slate-400">
-            {t("distribution.description")}
-          </p>
-        </div>
-        <div className="flex gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
-            <span className="material-symbols-outlined text-[18px]">
-              file_download
-            </span>{" "}
-            Export
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold shadow-lg shadow-primary/20 hover:translate-y-[-1px] transition-all">
-            <span className="material-symbols-outlined text-[18px]">add</span>{" "}
-            New Distribution
-          </button>
-        </div>
-      </div>
+      <PageHeader
+        title={t("distribution.title")}
+        description={t("distribution.description")}
+        actions={
+          <>
+            <button className="flex items-center gap-2 px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+              <span className="material-symbols-outlined text-[18px]">
+                file_download
+              </span>{" "}
+              Export
+            </button>
+            <button className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold shadow-lg shadow-primary/20 hover:translate-y-[-1px] transition-all">
+              <span className="material-symbols-outlined text-[18px]">add</span>{" "}
+              New Distribution
+            </button>
+          </>
+        }
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-2">

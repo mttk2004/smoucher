@@ -1,5 +1,6 @@
 import type { Route } from "./+types/history";
 import { useTranslation } from "react-i18next";
+import { PageHeader } from "../components/PageHeader";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,22 +16,16 @@ export default function History() {
   const { t } = useTranslation();
   return (
     <div className="flex flex-col gap-8">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div className="space-y-1">
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {t("history.title")}
-          </h1>
-          <p className="text-slate-500 dark:text-slate-400">
-            {t("history.description")}
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
+      <PageHeader
+        title={t("history.title")}
+        description={t("history.description")}
+        actions={
           <button className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg font-medium text-sm hover:opacity-90 transition-opacity">
             <span className="material-symbols-outlined text-sm">download</span>
             Export CSV
           </button>
-        </div>
-      </div>
+        }
+      />
 
       <div className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
         <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row gap-4 items-center justify-between">

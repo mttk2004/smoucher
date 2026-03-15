@@ -1,5 +1,6 @@
 import type { Route } from "./+types/vouchers";
 import { useTranslation } from "react-i18next";
+import { PageHeader } from "../components/PageHeader";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,29 +16,27 @@ export default function Vouchers() {
   const { t } = useTranslation();
   return (
     <div className="flex flex-col gap-8">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div className="space-y-1">
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {t("vouchers.title")}
-          </h1>
-          <p className="text-slate-500 dark:text-slate-400">
-            {t("vouchers.description")}
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <button className="inline-flex items-center justify-center gap-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 text-sm font-medium text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-            <span className="material-symbols-outlined text-lg">download</span>
-            Export CSV
-          </button>
-          <a
-            href="/vouchers/create"
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 transition-colors shadow-sm"
-          >
-            <span className="material-symbols-outlined text-lg">add</span>
-            Create Vouchers
-          </a>
-        </div>
-      </div>
+      <PageHeader
+        title={t("vouchers.title")}
+        description={t("vouchers.description")}
+        actions={
+          <>
+            <button className="inline-flex items-center justify-center gap-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 text-sm font-medium text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+              <span className="material-symbols-outlined text-lg">
+                download
+              </span>
+              Export CSV
+            </button>
+            <a
+              href="/vouchers/create"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 transition-colors shadow-sm"
+            >
+              <span className="material-symbols-outlined text-lg">add</span>
+              Create Vouchers
+            </a>
+          </>
+        }
+      />
 
       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm">
         <div className="flex flex-col lg:flex-row gap-4">

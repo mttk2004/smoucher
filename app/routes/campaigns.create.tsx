@@ -1,5 +1,6 @@
 import type { Route } from "./+types/campaigns.create";
 import { useTranslation } from "react-i18next";
+import { PageHeader } from "../components/PageHeader";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -25,14 +26,10 @@ export default function CreateCampaign() {
               Back to campaigns
             </a>
           </div>
-          <div className="space-y-1">
-            <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-              {t("campaignsCreate.title")}
-            </h1>
-            <p className="text-slate-500 dark:text-slate-400">
-              {t("campaignsCreate.description")}
-            </p>
-          </div>
+          <PageHeader
+            title={t("campaignsCreate.title")}
+            description={t("campaignsCreate.description")}
+          />
         </div>
 
         <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">

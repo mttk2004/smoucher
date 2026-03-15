@@ -9,34 +9,33 @@ export function meta({}: Route.MetaArgs) {
 
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
+import { PageHeader } from "../components/PageHeader";
 
 export default function Home() {
   const { t } = useTranslation();
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div className="space-y-1">
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {t("dashboard.title")}
-          </h1>
-          <p className="text-slate-500 dark:text-slate-400">
-            {t("dashboard.description")}
-          </p>
-        </div>
-        <div className="flex gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-700 bg-white border border-slate-200 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
-            <span className="material-symbols-outlined text-lg">
-              calendar_today
-            </span>
-            {t("dashboard.last30Days")}
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-700 bg-white border border-slate-200 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
-            <span className="material-symbols-outlined text-lg">download</span>
-            {t("dashboard.exportReport")}
-          </button>
-        </div>
-      </div>
+      <PageHeader
+        title={t("dashboard.title")}
+        description={t("dashboard.description")}
+        actions={
+          <>
+            <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-700 bg-white border border-slate-200 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+              <span className="material-symbols-outlined text-lg">
+                calendar_today
+              </span>
+              {t("dashboard.last30Days")}
+            </button>
+            <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-700 bg-white border border-slate-200 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+              <span className="material-symbols-outlined text-lg">
+                download
+              </span>
+              {t("dashboard.exportReport")}
+            </button>
+          </>
+        }
+      />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-white dark:bg-slate-950 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">

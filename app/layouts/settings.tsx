@@ -1,5 +1,6 @@
 import { Link, Outlet, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
+import { PageHeader } from "../components/PageHeader";
 
 export default function SettingsLayout() {
   const location = useLocation();
@@ -25,14 +26,10 @@ export default function SettingsLayout() {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="space-y-1">
-        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-          {t("settings.title")}
-        </h1>
-        <p className="text-slate-500 dark:text-slate-400">
-          {t("settings.description")}
-        </p>
-      </div>
+      <PageHeader
+        title={t("settings.title")}
+        description={t("settings.description")}
+      />
 
       <div className="border-b border-slate-200 dark:border-slate-800">
         <nav className="-mb-px flex gap-8">
