@@ -1,0 +1,46 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "campaigns": "Campaigns",
+    "vouchers": "Vouchers",
+    "history": "History",
+    "customers": "Customers",
+    "settings": "Settings",
+    "system": "System",
+    "support": "Support",
+    "analytics": "Analytics",
+    "audience": "Audience",
+    "organization": "Organization",
+    "inventory": "Inventory"
+  },
+  "dashboard": {
+    "title": "Dashboard Overview",
+    "description": "Real-time performance metrics for Smoucher marketing initiatives.",
+    "last30Days": "Last 30 Days",
+    "exportReport": "Export Report",
+    "activeCampaigns": "Active Campaigns",
+    "vsLastMonth": "vs last month",
+    "vouchersDistributed": "Vouchers Distributed",
+    "demandPeak": "Demand peak on weekends",
+    "usageRate": "Usage Rate",
+    "budgetVsActual": "Budget vs Actual",
+    "remainingBudget": "remaining budget",
+    "revenueOverTime": "Revenue Over Time",
+    "usageTrends": "Usage Trends",
+    "redemptionsThisWeek": "Redemptions this week",
+    "insight": "Insight",
+    "insightText": "Redemption rates increased by 15% when campaigns were shared on Friday mornings.",
+    "activeCampaignsTable": "Active Campaigns",
+    "viewAll": "View all campaigns",
+    "campaignName": "Campaign Name",
+    "status": "Status",
+    "revenueGenerated": "Revenue Generated",
+    "action": "Action"
+  },
+  "common": {
+    "createCampaign": "Create Campaign",
+    "search": "Search...",
+    "adminPanel": "Admin Panel",
+    "marketingDirector": "Marketing Director"
+  }
+}
