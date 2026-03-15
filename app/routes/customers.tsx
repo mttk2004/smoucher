@@ -258,6 +258,6 @@ export default function Customers() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
