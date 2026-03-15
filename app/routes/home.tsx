@@ -7,7 +7,12 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "../components/LanguageSwitcher";
+
 export default function Home() {
+  const { t } = useTranslation();
+
   return (
     <div className="flex min-h-screen">
       <aside className="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 flex flex-col shrink-0">
@@ -17,46 +22,46 @@ export default function Home() {
           </div>
           <div>
             <h1 className="text-sm font-bold tracking-tight text-slate-900 dark:text-white uppercase">Smoucher</h1>
-            <p className="text-[10px] text-slate-500 font-medium tracking-widest uppercase">Admin Panel</p>
+            <p className="text-[10px] text-slate-500 font-medium tracking-widest uppercase">{t('common.adminPanel')}</p>
           </div>
         </div>
         <nav className="flex-1 px-4 space-y-1 overflow-y-auto">
           <a className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg bg-primary/10 text-primary" href="/">
             <span className="material-symbols-outlined">dashboard</span>
-            Dashboard
+            {t('nav.dashboard')}
           </a>
           <a className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900" href="/campaigns">
             <span className="material-symbols-outlined">campaign</span>
-            Campaigns
+            {t('nav.campaigns')}
           </a>
           <a className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900" href="/vouchers">
             <span className="material-symbols-outlined">payments</span>
-            Vouchers
+            {t('nav.vouchers')}
           </a>
           <a className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900" href="/history">
             <span className="material-symbols-outlined">bar_chart</span>
-            Analytics
+            {t('nav.analytics')}
           </a>
           <a className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900" href="/customers">
             <span className="material-symbols-outlined">group</span>
-            Customers
+            {t('nav.customers')}
           </a>
           <div className="pt-4 pb-2">
-            <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">System</p>
+            <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('nav.system')}</p>
           </div>
           <a className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900" href="/settings/api-keys">
             <span className="material-symbols-outlined">settings</span>
-            Settings
+            {t('nav.settings')}
           </a>
           <a className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900" href="#">
             <span className="material-symbols-outlined">help</span>
-            Support
+            {t('nav.support')}
           </a>
         </nav>
         <div className="p-4 border-t border-slate-200 dark:border-slate-800">
           <button className="w-full flex items-center gap-3 px-3 py-2.5 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors">
             <span className="material-symbols-outlined text-lg">add_circle</span>
-            Create Campaign
+            {t('common.createCampaign')}
           </button>
         </div>
       </aside>
@@ -66,10 +71,11 @@ export default function Home() {
           <div className="flex items-center gap-4 flex-1">
             <div className="relative w-full max-w-md">
               <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
-              <input className="w-full pl-10 pr-4 py-2 text-sm bg-slate-100 dark:bg-slate-900 border-none rounded-lg focus:ring-2 focus:ring-primary/20 placeholder:text-slate-500" placeholder="Search analytics or campaigns..." type="text" />
+              <input className="w-full pl-10 pr-4 py-2 text-sm bg-slate-100 dark:bg-slate-900 border-none rounded-lg focus:ring-2 focus:ring-primary/20 placeholder:text-slate-500" placeholder={t('common.search')} type="text" />
             </div>
           </div>
           <div className="flex items-center gap-4">
+            <LanguageSwitcher />
             <button className="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-900 rounded-lg relative">
               <span className="material-symbols-outlined">notifications</span>
               <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 border-2 border-white dark:border-slate-950 rounded-full"></span>
@@ -78,7 +84,7 @@ export default function Home() {
             <div className="flex items-center gap-3 pl-2">
               <div className="text-right">
                 <p className="text-xs font-bold text-slate-900 dark:text-white leading-none">Alex Rivera</p>
-                <p className="text-[10px] text-slate-500 font-medium">Marketing Director</p>
+                <p className="text-[10px] text-slate-500 font-medium">{t('common.marketingDirector')}</p>
               </div>
               <div className="h-10 w-10 rounded-full bg-slate-200 overflow-hidden border border-slate-200 dark:border-slate-800">
                 <img alt="Profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzhtqww5x88k0U9bciP2sm7Xa7rCKDvDk70aFgismgBLTFtdVS7J_ATnuihDwFSZwQUMBHlxxpKY8_qVPcEom0RbnftoRrdtqMMLQEaVmJO5NphgkCutjUbYS82oheBJWk204qikn-c-Xvd_53l3Jaf6OUpnkakbK8pnoAofcIlCDhuiIiioz636txypCqjIqwff30pyfRKaaMRK01s6_WIueS9KLRs-Mz2NpkzPM__H6m3XB_mb4HHFrWVJdFt2QRQpe-YLQPNeg" />
@@ -90,17 +96,17 @@ export default function Home() {
         <div className="p-8 space-y-8 overflow-y-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">Dashboard Overview</h2>
-              <p className="text-slate-500 mt-1">Real-time performance metrics for Smoucher marketing initiatives.</p>
+              <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">{t('dashboard.title')}</h2>
+              <p className="text-slate-500 mt-1">{t('dashboard.description')}</p>
             </div>
             <div className="flex gap-3">
               <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-700 bg-white border border-slate-200 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
                 <span className="material-symbols-outlined text-lg">calendar_today</span>
-                Last 30 Days
+                {t('dashboard.last30Days')}
               </button>
               <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-700 bg-white border border-slate-200 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
                 <span className="material-symbols-outlined text-lg">download</span>
-                Export Report
+                {t('dashboard.exportReport')}
               </button>
             </div>
           </div>
@@ -108,29 +114,29 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white dark:bg-slate-950 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-slate-500">Active Campaigns</span>
+                <span className="text-sm font-medium text-slate-500">{t('dashboard.activeCampaigns')}</span>
                 <span className="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg text-lg">campaign</span>
               </div>
               <div className="mt-4 flex items-baseline gap-2">
                 <p className="text-2xl font-bold text-slate-900 dark:text-white leading-none">12</p>
                 <span className="text-xs font-bold text-green-600 bg-green-50 dark:bg-green-900/20 px-1.5 py-0.5 rounded leading-none">+2.5%</span>
               </div>
-              <p className="text-xs text-slate-400 mt-2">vs last month: 10 active</p>
+              <p className="text-xs text-slate-400 mt-2">{t('dashboard.vsLastMonth')}</p>
             </div>
             <div className="bg-white dark:bg-slate-950 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-slate-500">Vouchers Distributed</span>
+                <span className="text-sm font-medium text-slate-500">{t('dashboard.vouchersDistributed')}</span>
                 <span className="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg text-lg">confirmation_number</span>
               </div>
               <div className="mt-4 flex items-baseline gap-2">
                 <p className="text-2xl font-bold text-slate-900 dark:text-white leading-none">45,280</p>
                 <span className="text-xs font-bold text-red-600 bg-red-50 dark:bg-red-900/20 px-1.5 py-0.5 rounded leading-none">-5%</span>
               </div>
-              <p className="text-xs text-slate-400 mt-2">Demand peak on weekends</p>
+              <p className="text-xs text-slate-400 mt-2">{t('dashboard.demandPeak')}</p>
             </div>
             <div className="bg-white dark:bg-slate-950 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-slate-500">Usage Rate</span>
+                <span className="text-sm font-medium text-slate-500">{t('dashboard.usageRate')}</span>
                 <span className="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg text-lg">bolt</span>
               </div>
               <div className="mt-4 flex items-baseline gap-2">
@@ -143,14 +149,14 @@ export default function Home() {
             </div>
             <div className="bg-white dark:bg-slate-950 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-slate-500">Budget vs Actual</span>
+                <span className="text-sm font-medium text-slate-500">{t('dashboard.budgetVsActual')}</span>
                 <span className="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg text-lg">account_balance_wallet</span>
               </div>
               <div className="mt-4 flex items-baseline gap-2">
                 <p className="text-2xl font-bold text-slate-900 dark:text-white leading-none">72%</p>
                 <span className="text-xs font-bold text-green-600 bg-green-50 dark:bg-green-900/20 px-1.5 py-0.5 rounded leading-none">+8%</span>
               </div>
-              <p className="text-xs text-slate-400 mt-2">$34,500 remaining budget</p>
+              <p className="text-xs text-slate-400 mt-2">$34,500 {t('dashboard.remainingBudget')}</p>
             </div>
           </div>
 
@@ -158,7 +164,7 @@ export default function Home() {
             <div className="bg-white dark:bg-slate-950 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Revenue Over Time</h3>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">{t('dashboard.revenueOverTime')}</h3>
                   <div className="flex items-center gap-2 mt-1">
                     <span className="text-3xl font-black text-slate-900 dark:text-white">$124,500</span>
                     <span className="text-sm font-bold text-green-600 flex items-center">
@@ -198,10 +204,10 @@ export default function Home() {
             <div className="bg-white dark:bg-slate-950 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Usage Trends</h3>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">{t('dashboard.usageTrends')}</h3>
                   <div className="flex items-center gap-2 mt-1">
                     <span className="text-3xl font-black text-slate-900 dark:text-white">8,432</span>
-                    <span className="text-sm font-medium text-slate-500">Redemptions this week</span>
+                    <span className="text-sm font-medium text-slate-500">{t('dashboard.redemptionsThisWeek')}</span>
                     <span className="text-sm font-bold text-green-600 flex items-center">
                       <span className="material-symbols-outlined text-sm">trending_up</span>
                       5.7%
@@ -240,7 +246,7 @@ export default function Home() {
                   <span className="material-symbols-outlined text-lg">lightbulb</span>
                 </div>
                 <p className="text-xs text-slate-600 dark:text-slate-400 leading-snug">
-                  <strong className="text-primary">Insight:</strong> Redemption rates increased by 15% when campaigns were shared on Friday mornings.
+                  <strong className="text-primary">{t('dashboard.insight')}:</strong> {t('dashboard.insightText')}
                 </p>
               </div>
             </div>
@@ -248,18 +254,18 @@ export default function Home() {
 
           <div className="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
             <div className="px-8 py-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white">Active Campaigns</h3>
-              <button className="text-sm font-semibold text-primary hover:underline">View all campaigns</button>
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white">{t('dashboard.activeCampaignsTable')}</h3>
+              <button className="text-sm font-semibold text-primary hover:underline">{t('dashboard.viewAll')}</button>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
                   <tr className="bg-slate-50 dark:bg-slate-900/50">
-                    <th className="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Campaign Name</th>
-                    <th className="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
-                    <th className="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Usage Rate</th>
-                    <th className="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Revenue Generated</th>
-                    <th className="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Action</th>
+                    <th className="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">{t('dashboard.campaignName')}</th>
+                    <th className="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">{t('dashboard.status')}</th>
+                    <th className="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">{t('dashboard.usageRate')}</th>
+                    <th className="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">{t('dashboard.revenueGenerated')}</th>
+                    <th className="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">{t('dashboard.action')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">

@@ -1,0 +1,46 @@
+{
+  "nav": {
+    "dashboard": "Bảng Điều Khiển",
+    "campaigns": "Chiến Dịch",
+    "vouchers": "Khuyến Mãi",
+    "history": "Lịch Sử",
+    "customers": "Khách Hàng",
+    "settings": "Cài Đặt",
+    "system": "Hệ Thống",
+    "support": "Hỗ Trợ",
+    "analytics": "Phân Tích",
+    "audience": "Đối Tượng",
+    "organization": "Tổ Chức",
+    "inventory": "Kho Mã"
+  },
+  "dashboard": {
+    "title": "Tổng Quan Bảng Điều Khiển",
+    "description": "Các chỉ số hiệu suất theo thời gian thực cho các sáng kiến tiếp thị của Smoucher.",
+    "last30Days": "30 Ngày Qua",
+    "exportReport": "Xuất Báo Cáo",
+    "activeCampaigns": "Chiến Dịch Hoạt Động",
+    "vsLastMonth": "so với tháng trước",
+    "vouchersDistributed": "Khuyến Mãi Đã Phân Phối",
+    "demandPeak": "Nhu cầu cao vào cuối tuần",
+    "usageRate": "Tỷ Lệ Sử Dụng",
+    "budgetVsActual": "Ngân Sách vs Thực Tế",
+    "remainingBudget": "ngân sách còn lại",
+    "revenueOverTime": "Doanh Thu Theo Thời Gian",
+    "usageTrends": "Xu Hướng Sử Dụng",
+    "redemptionsThisWeek": "Đã đổi trong tuần này",
+    "insight": "Thông Tin Chi Tiết",
+    "insightText": "Tỷ lệ đổi mã tăng 15% khi chiến dịch được chia sẻ vào các buổi sáng Thứ Sáu.",
+    "activeCampaignsTable": "Các Chiến Dịch Đang Hoạt Động",
+    "viewAll": "Xem tất cả chiến dịch",
+    "campaignName": "Tên Chiến Dịch",
+    "status": "Trạng Thái",
+    "revenueGenerated": "Doanh Thu Tạo Ra",
+    "action": "Hành Động"
+  },
+  "common": {
+    "createCampaign": "Tạo Chiến Dịch",
+    "search": "Tìm kiếm...",
+    "adminPanel": "Bảng Quản Trị",
+    "marketingDirector": "Giám Đốc Tiếp Thị"
+  }
+}
