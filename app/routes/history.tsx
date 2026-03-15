@@ -1,3 +1,5 @@
+import { Pagination } from "../components/ui/Pagination";
+import { Badge } from "../components/ui/Badge";
 import type { Route } from "./+types/history";
 import { useTranslation } from "react-i18next";
 import { PageHeader } from "../components/PageHeader";
@@ -11,6 +13,54 @@ export function meta({}: Route.MetaArgs) {
     },
   ];
 }
+
+const HISTORY_DATA = [
+  {
+    orderId: "#ORD-9921",
+    location: "Downtown Central",
+    address: "Main St. 402",
+    amount: "$15.00",
+    status: "Completed",
+    statusVariant: "success",
+    timestamp: "Oct 24, 2023 14:20"
+  },
+  {
+    orderId: "#ORD-9845",
+    location: "Westside Mall",
+    address: "Terminal 3, Gate B",
+    amount: "$10.00",
+    status: "Completed",
+    statusVariant: "success",
+    timestamp: "Oct 23, 2023 11:15"
+  },
+  {
+    orderId: "#ORD-9712",
+    location: "Airport Terminal 2",
+    address: "International Hub",
+    amount: "$25.50",
+    status: "Pending",
+    statusVariant: "warning",
+    timestamp: "Oct 22, 2023 18:45"
+  },
+  {
+    orderId: "#ORD-9650",
+    location: "Downtown Central",
+    address: "Main St. 402",
+    amount: "$5.00",
+    status: "Completed",
+    statusVariant: "success",
+    timestamp: "Oct 21, 2023 09:30"
+  },
+  {
+    orderId: "#ORD-9588",
+    location: "North Plaza",
+    address: "Level 2 Food Court",
+    amount: "$12.00",
+    status: "Cancelled",
+    statusVariant: "default",
+    timestamp: "Oct 20, 2023 13:10"
+  }
+];
 
 export default function History() {
   const { t } = useTranslation();
@@ -91,33 +141,33 @@ export default function History() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/50 transition-colors">
+              {HISTORY_DATA.map((record, i) => (
+              <tr key={i} className="hover:bg-slate-50/50 dark:hover:bg-slate-900/50 transition-colors">
                 <td className="px-6 py-4">
                   <span className="font-mono text-sm text-primary font-semibold">
-                    #ORD-9921
+                    {record.orderId}
                   </span>
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex flex-col">
                     <span className="text-sm font-medium text-slate-900 dark:text-white">
-                      Downtown Central
+                      {record.location}
                     </span>
-                    <span className="text-xs text-slate-500">Main St. 402</span>
+                    <span className="text-xs text-slate-500">{record.address}</span>
                   </div>
                 </td>
                 <td className="px-6 py-4 text-right">
                   <span className="text-sm font-bold text-slate-900 dark:text-white">
-                    $15.00
+                    {record.amount}
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
-                    <span className="size-1.5 bg-green-500 rounded-full mr-1.5"></span>
-                    Completed
-                  </span>
+                  <Badge variant={record.statusVariant as any}>
+                    {record.status}
+                  </Badge>
                 </td>
                 <td className="px-6 py-4 text-sm text-slate-500">
-                  Oct 24, 2023 14:20
+                  {record.timestamp}
                 </td>
                 <td className="px-6 py-4 text-right">
                   <button className="p-1 hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-colors text-slate-400">
@@ -127,170 +177,13 @@ export default function History() {
                   </button>
                 </td>
               </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/50 transition-colors">
-                <td className="px-6 py-4">
-                  <span className="font-mono text-sm text-primary font-semibold">
-                    #ORD-9845
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="flex flex-col">
-                    <span className="text-sm font-medium text-slate-900 dark:text-white">
-                      Westside Mall
-                    </span>
-                    <span className="text-xs text-slate-500">
-                      Terminal 3, Gate B
-                    </span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <span className="text-sm font-bold text-slate-900 dark:text-white">
-                    $10.00
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
-                    <span className="size-1.5 bg-green-500 rounded-full mr-1.5"></span>
-                    Completed
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-sm text-slate-500">
-                  Oct 23, 2023 11:15
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <button className="p-1 hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-colors text-slate-400">
-                    <span className="material-symbols-outlined text-lg">
-                      more_vert
-                    </span>
-                  </button>
-                </td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/50 transition-colors">
-                <td className="px-6 py-4">
-                  <span className="font-mono text-sm text-primary font-semibold">
-                    #ORD-9712
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="flex flex-col">
-                    <span className="text-sm font-medium text-slate-900 dark:text-white">
-                      Airport Terminal 2
-                    </span>
-                    <span className="text-xs text-slate-500">
-                      International Hub
-                    </span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <span className="text-sm font-bold text-slate-900 dark:text-white">
-                    $25.50
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400">
-                    <span className="size-1.5 bg-amber-500 rounded-full mr-1.5"></span>
-                    Pending
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-sm text-slate-500">
-                  Oct 22, 2023 18:45
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <button className="p-1 hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-colors text-slate-400">
-                    <span className="material-symbols-outlined text-lg">
-                      more_vert
-                    </span>
-                  </button>
-                </td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/50 transition-colors">
-                <td className="px-6 py-4">
-                  <span className="font-mono text-sm text-primary font-semibold">
-                    #ORD-9650
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="flex flex-col">
-                    <span className="text-sm font-medium text-slate-900 dark:text-white">
-                      Downtown Central
-                    </span>
-                    <span className="text-xs text-slate-500">Main St. 402</span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <span className="text-sm font-bold text-slate-900 dark:text-white">
-                    $5.00
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
-                    <span className="size-1.5 bg-green-500 rounded-full mr-1.5"></span>
-                    Completed
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-sm text-slate-500">
-                  Oct 21, 2023 09:30
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <button className="p-1 hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-colors text-slate-400">
-                    <span className="material-symbols-outlined text-lg">
-                      more_vert
-                    </span>
-                  </button>
-                </td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/50 transition-colors">
-                <td className="px-6 py-4">
-                  <span className="font-mono text-sm text-primary font-semibold">
-                    #ORD-9588
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="flex flex-col">
-                    <span className="text-sm font-medium text-slate-900 dark:text-white">
-                      North Plaza
-                    </span>
-                    <span className="text-xs text-slate-500">
-                      Level 2 Food Court
-                    </span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <span className="text-sm font-bold text-slate-900 dark:text-white">
-                    $12.00
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
-                    <span className="size-1.5 bg-slate-400 rounded-full mr-1.5"></span>
-                    Cancelled
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-sm text-slate-500">
-                  Oct 20, 2023 13:10
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <button className="p-1 hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-colors text-slate-400">
-                    <span className="material-symbols-outlined text-lg">
-                      more_vert
-                    </span>
-                  </button>
-                </td>
-              </tr>
+            ))}
             </tbody>
           </table>
         </div>
 
-        <div className="p-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-          <p className="text-xs text-slate-500">Page 1 of 62</p>
-          <div className="flex gap-2">
-            <button className="px-3 py-1.5 text-sm font-medium border border-slate-200 dark:border-slate-800 rounded-lg opacity-50 cursor-not-allowed">
-              Previous
-            </button>
-            <button className="px-3 py-1.5 text-sm font-medium border border-slate-200 dark:border-slate-800 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors">
-              Next
-            </button>
-          </div>
+        <div className="p-4 border-t border-slate-100 dark:border-slate-800">
+          <Pagination start={1} end={5} total={1248} itemName="records" className="mt-0" />
         </div>
       </div>
 

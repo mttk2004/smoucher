@@ -1,3 +1,5 @@
+import { Pagination } from "../components/ui/Pagination";
+import { Badge } from "../components/ui/Badge";
 import type { Route } from "./+types/vouchers";
 import { useTranslation } from "react-i18next";
 import { PageHeader } from "../components/PageHeader";
@@ -11,6 +13,54 @@ export function meta({}: Route.MetaArgs) {
     },
   ];
 }
+
+const VOUCHERS_DATA = [
+  {
+    code: "SMCH-9283-XJ",
+    status: "Issued",
+    statusVariant: "info",
+    initials: "AR",
+    name: "Alex River",
+    campaign: "Summer Blast 2024",
+    expiry: "Dec 12, 2024"
+  },
+  {
+    code: "SMCH-1102-LK",
+    status: "Redeemed",
+    statusVariant: "success",
+    initials: "JS",
+    name: "Jordan Smith",
+    campaign: "Holiday Special",
+    expiry: "Oct 05, 2023"
+  },
+  {
+    code: "SMCH-7734-OP",
+    status: "Expired",
+    statusVariant: "error",
+    initials: "CD",
+    name: "Casey Doe",
+    campaign: "Flash Sale",
+    expiry: "Jan 20, 2024"
+  },
+  {
+    code: "SMCH-4456-BN",
+    status: "Issued",
+    statusVariant: "info",
+    initials: "SW",
+    name: "Sam Wilson",
+    campaign: "Loyalty Rewards",
+    expiry: "Nov 15, 2024"
+  },
+  {
+    code: "SMCH-2291-QM",
+    status: "Redeemed",
+    statusVariant: "success",
+    initials: "TR",
+    name: "Taylor Reed",
+    campaign: "Referral Bonus",
+    expiry: "Sep 30, 2023"
+  }
+];
 
 export default function Vouchers() {
   const { t } = useTranslation();
@@ -100,33 +150,33 @@ export default function Vouchers() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+              {VOUCHERS_DATA.map((voucher, i) => (
+              <tr key={i} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className="font-mono text-sm font-semibold text-primary">
-                    SMCH-9283-XJ
+                    {voucher.code}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
-                    <span className="size-1.5 rounded-full bg-blue-500"></span>
-                    Issued
-                  </span>
+                  <Badge variant={voucher.statusVariant as any}>
+                    {voucher.status}
+                  </Badge>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center gap-2">
                     <div className="size-6 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[10px] font-bold">
-                      AR
+                      {voucher.initials}
                     </div>
                     <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                      Alex River
+                      {voucher.name}
                     </span>
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
-                  Summer Blast 2024
+                  {voucher.campaign}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
-                  Dec 12, 2024
+                  {voucher.expiry}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right">
                   <button className="text-slate-400 hover:text-primary transition-colors">
@@ -136,190 +186,13 @@ export default function Vouchers() {
                   </button>
                 </td>
               </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="font-mono text-sm font-semibold text-primary">
-                    SMCH-1102-LK
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
-                    <span className="size-1.5 rounded-full bg-emerald-500"></span>
-                    Redeemed
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center gap-2">
-                    <div className="size-6 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[10px] font-bold">
-                      JS
-                    </div>
-                    <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                      Jordan Smith
-                    </span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
-                  Holiday Special
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
-                  Oct 05, 2023
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right">
-                  <button className="text-slate-400 hover:text-primary transition-colors">
-                    <span className="material-symbols-outlined text-xl">
-                      more_vert
-                    </span>
-                  </button>
-                </td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="font-mono text-sm font-semibold text-primary">
-                    SMCH-7734-OP
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-300">
-                    <span className="size-1.5 rounded-full bg-rose-500"></span>
-                    Expired
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center gap-2">
-                    <div className="size-6 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[10px] font-bold">
-                      CD
-                    </div>
-                    <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                      Casey Doe
-                    </span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
-                  Flash Sale
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
-                  Jan 20, 2024
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right">
-                  <button className="text-slate-400 hover:text-primary transition-colors">
-                    <span className="material-symbols-outlined text-xl">
-                      more_vert
-                    </span>
-                  </button>
-                </td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="font-mono text-sm font-semibold text-primary">
-                    SMCH-4456-BN
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
-                    <span className="size-1.5 rounded-full bg-blue-500"></span>
-                    Issued
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center gap-2">
-                    <div className="size-6 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[10px] font-bold">
-                      SW
-                    </div>
-                    <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                      Sam Wilson
-                    </span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
-                  Loyalty Rewards
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
-                  Nov 15, 2024
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right">
-                  <button className="text-slate-400 hover:text-primary transition-colors">
-                    <span className="material-symbols-outlined text-xl">
-                      more_vert
-                    </span>
-                  </button>
-                </td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="font-mono text-sm font-semibold text-primary">
-                    SMCH-2291-QM
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
-                    <span className="size-1.5 rounded-full bg-emerald-500"></span>
-                    Redeemed
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center gap-2">
-                    <div className="size-6 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[10px] font-bold">
-                      TR
-                    </div>
-                    <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                      Taylor Reed
-                    </span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
-                  Referral Bonus
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
-                  Sep 30, 2023
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right">
-                  <button className="text-slate-400 hover:text-primary transition-colors">
-                    <span className="material-symbols-outlined text-xl">
-                      more_vert
-                    </span>
-                  </button>
-                </td>
-              </tr>
+            ))}
             </tbody>
           </table>
         </div>
 
-        <div className="px-6 py-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
-          <span className="text-xs text-slate-500 dark:text-slate-400">
-            Showing{" "}
-            <span className="font-semibold text-slate-900 dark:text-slate-100">
-              1 to 5
-            </span>{" "}
-            of{" "}
-            <span className="font-semibold text-slate-900 dark:text-slate-100">
-              1,240
-            </span>{" "}
-            vouchers
-          </span>
-          <div className="flex items-center gap-2">
-            <button
-              className="p-2 rounded-lg border border-slate-200 dark:border-slate-800 disabled:opacity-50 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-              disabled
-            >
-              <span className="material-symbols-outlined text-sm">
-                chevron_left
-              </span>
-            </button>
-            <button className="size-8 flex items-center justify-center rounded-lg bg-primary text-white text-xs font-semibold">
-              1
-            </button>
-            <button className="size-8 flex items-center justify-center rounded-lg text-slate-600 dark:text-slate-400 text-xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-800">
-              2
-            </button>
-            <button className="size-8 flex items-center justify-center rounded-lg text-slate-600 dark:text-slate-400 text-xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-800">
-              3
-            </button>
-            <button className="p-2 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-              <span className="material-symbols-outlined text-sm">
-                chevron_right
-              </span>
-            </button>
-          </div>
+        <div className="px-6 py-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30">
+          <Pagination start={1} end={5} total={1240} itemName="vouchers" className="mt-0" />
         </div>
       </div>
 

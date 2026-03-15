@@ -1,6 +1,9 @@
 import type { Route } from "./+types/customers";
 import { useTranslation } from "react-i18next";
 import { PageHeader } from "../components/PageHeader";
+import { Pagination } from "../components/ui/Pagination";
+import { Badge } from "../components/ui/Badge";
+
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -13,10 +16,53 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
+const CUSTOMERS_DATA = [
+  {
+    initials: "AR",
+    bg: "bg-primary/20 text-primary",
+    name: "Alex Rivera",
+    email: "alex.r@example.com",
+    smId: "SM-8821",
+    extId: "EXT-9901",
+    tier: "Gold",
+    tierVariant: "warning"
+  },
+  {
+    initials: "JS",
+    bg: "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300",
+    name: "Jordan Smith",
+    email: "j.smith@provider.net",
+    smId: "SM-4412",
+    extId: "EXT-2234",
+    tier: "Silver",
+    tierVariant: "default"
+  },
+  {
+    initials: "CC",
+    bg: "bg-orange-100 dark:bg-orange-900/30 text-orange-600",
+    name: "Casey Chen",
+    email: "casey.c@work.com",
+    smId: "SM-1092",
+    extId: "EXT-7721",
+    tier: "Bronze",
+    tierVariant: "error"
+  },
+  {
+    initials: "TW",
+    bg: "bg-primary/20 text-primary",
+    name: "Taylor Wong",
+    email: "t.wong@service.io",
+    smId: "SM-3398",
+    extId: "EXT-5542",
+    tier: "Gold",
+    tierVariant: "warning"
+  }
+];
+
 export default function Customers() {
   const { t } = useTranslation();
   return (
-    <>
+    <div className="flex flex-col gap-8">
       <PageHeader
         title={t("customers.title")}
         description={t("customers.description")}
@@ -74,33 +120,32 @@ export default function Customers() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+              {CUSTOMERS_DATA.map((customer, i) => (
+              <tr key={i} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
-                    <div className="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs">
-                      AR
+                    <div className={`size-8 rounded-full flex items-center justify-center font-bold text-xs ${customer.bg}`}>
+                      {customer.initials}
                     </div>
-                    <span className="text-sm font-semibold">Alex Rivera</span>
+                    <span className="text-sm font-semibold">{customer.name}</span>
                   </div>
                 </td>
                 <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
-                  alex.r@example.com
+                  {customer.email}
                 </td>
                 <td className="px-6 py-4">
                   <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-[11px] font-mono font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                    SM-8821
+                    {customer.smId}
                   </span>
                 </td>
                 <td className="px-6 py-4">
                   <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-[11px] font-mono font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                    EXT-9901
+                    {customer.extId}
                   </span>
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex justify-center">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-yellow-100 text-yellow-800 border border-yellow-200">
-                      Gold
-                    </span>
+                    <Badge variant={customer.tierVariant as any}>{customer.tier}</Badge>
                   </div>
                 </td>
                 <td className="px-6 py-4 text-right">
@@ -111,138 +156,15 @@ export default function Customers() {
                   </button>
                 </td>
               </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-3">
-                    <div className="size-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold text-xs">
-                      JS
-                    </div>
-                    <span className="text-sm font-semibold">Jordan Smith</span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
-                  j.smith@provider.net
-                </td>
-                <td className="px-6 py-4">
-                  <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-[11px] font-mono font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                    SM-4412
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-[11px] font-mono font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                    EXT-2234
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="flex justify-center">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-600 border border-slate-200">
-                      Silver
-                    </span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <button className="text-slate-400 hover:text-primary transition-colors">
-                    <span className="material-symbols-outlined text-lg">
-                      edit_square
-                    </span>
-                  </button>
-                </td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-3">
-                    <div className="size-8 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 font-bold text-xs">
-                      CC
-                    </div>
-                    <span className="text-sm font-semibold">Casey Chen</span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
-                  casey.c@work.com
-                </td>
-                <td className="px-6 py-4">
-                  <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-[11px] font-mono font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                    SM-1092
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-[11px] font-mono font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                    EXT-7721
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="flex justify-center">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-orange-50 text-orange-700 border border-orange-100">
-                      Bronze
-                    </span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <button className="text-slate-400 hover:text-primary transition-colors">
-                    <span className="material-symbols-outlined text-lg">
-                      edit_square
-                    </span>
-                  </button>
-                </td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-3">
-                    <div className="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs">
-                      TW
-                    </div>
-                    <span className="text-sm font-semibold">Taylor Wong</span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
-                  t.wong@service.io
-                </td>
-                <td className="px-6 py-4">
-                  <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-[11px] font-mono font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                    SM-3398
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-[11px] font-mono font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                    EXT-5542
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="flex justify-center">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-yellow-100 text-yellow-800 border border-yellow-200">
-                      Gold
-                    </span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <button className="text-slate-400 hover:text-primary transition-colors">
-                    <span className="material-symbols-outlined text-lg">
-                      edit_square
-                    </span>
-                  </button>
-                </td>
-              </tr>
+            ))}
             </tbody>
           </table>
         </div>
 
-        <div className="px-6 py-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 flex items-center justify-between">
-          <span className="text-xs text-slate-500 font-medium">
-            Showing 1 to 4 of 2,450 results
-          </span>
-          <div className="flex gap-2">
-            <button
-              className="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-xs font-semibold disabled:opacity-50"
-              disabled
-            >
-              Previous
-            </button>
-            <button className="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-700">
-              Next
-            </button>
-          </div>
+        <div className="px-6 py-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30">
+          <Pagination start={1} end={4} total={2450} itemName="results" className="mt-0" />
         </div>
       </div>
-    </>
+    </div>
   );
 }

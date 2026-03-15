@@ -10,9 +10,90 @@ export function meta({}: Route.MetaArgs) {
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { PageHeader } from "../components/PageHeader";
+import { StatCard } from "../components/dashboard/StatCard";
 
 export default function Home() {
   const { t } = useTranslation();
+
+  const STATS = [
+    {
+      title: t("dashboard.activeCampaigns"),
+      icon: "campaign",
+      value: "12",
+      trend: "+2.5%",
+      trendDirection: "up" as const,
+      description: t("dashboard.vsLastMonth"),
+    },
+    {
+      title: t("dashboard.vouchersDistributed"),
+      icon: "confirmation_number",
+      value: "45,280",
+      trend: "-5%",
+      trendDirection: "down" as const,
+      description: t("dashboard.demandPeak"),
+    },
+    {
+      title: t("dashboard.usageRate"),
+      icon: "bolt",
+      value: "68.5%",
+      trend: "+12%",
+      trendDirection: "up" as const,
+      progress: 68.5,
+    },
+    {
+      title: t("dashboard.budgetVsActual"),
+      icon: "account_balance_wallet",
+      value: "72%",
+      trend: "+8%",
+      trendDirection: "up" as const,
+      description: `$34,500 ${t("dashboard.remainingBudget")}`,
+    },
+  ];
+
+  const ACTIVE_CAMPAIGNS = [
+    {
+      id: "SF",
+      initials: "SF",
+      colorClass: "bg-indigo-100 text-indigo-600",
+      name: "Summer Foodie Fest",
+      category: "Food & Beverage",
+      status: "Active",
+      statusColorClass:
+        "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+      statusDotClass: "bg-green-600",
+      usageRate: 82,
+      usageBarColor: "bg-primary",
+      revenue: "$42,300",
+    },
+    {
+      id: "BS",
+      initials: "BS",
+      colorClass: "bg-pink-100 text-pink-600",
+      name: "Back to School Promo",
+      category: "Retail",
+      status: "Pending",
+      statusColorClass:
+        "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
+      statusDotClass: "bg-amber-600",
+      usageRate: 0,
+      usageBarColor: "bg-slate-300 dark:bg-slate-600",
+      revenue: "$0",
+    },
+    {
+      id: "WE",
+      initials: "WE",
+      colorClass: "bg-emerald-100 text-emerald-600",
+      name: "Weekend Escape Vouchers",
+      category: "Travel",
+      status: "Active",
+      statusColorClass:
+        "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+      statusDotClass: "bg-green-600",
+      usageRate: 45,
+      usageBarColor: "bg-primary",
+      revenue: "$18,900",
+    },
+  ];
 
   return (
     <div className="flex flex-col gap-8">
@@ -38,93 +119,9 @@ export default function Home() {
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white dark:bg-slate-950 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-slate-500">
-              {t("dashboard.activeCampaigns")}
-            </span>
-            <span className="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg text-lg">
-              campaign
-            </span>
-          </div>
-          <div className="mt-4 flex items-baseline gap-2">
-            <p className="text-2xl font-bold text-slate-900 dark:text-white leading-none">
-              12
-            </p>
-            <span className="text-xs font-bold text-green-600 bg-green-50 dark:bg-green-900/20 px-1.5 py-0.5 rounded leading-none">
-              +2.5%
-            </span>
-          </div>
-          <p className="text-xs text-slate-400 mt-2">
-            {t("dashboard.vsLastMonth")}
-          </p>
-        </div>
-        <div className="bg-white dark:bg-slate-950 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-slate-500">
-              {t("dashboard.vouchersDistributed")}
-            </span>
-            <span className="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg text-lg">
-              confirmation_number
-            </span>
-          </div>
-          <div className="mt-4 flex items-baseline gap-2">
-            <p className="text-2xl font-bold text-slate-900 dark:text-white leading-none">
-              45,280
-            </p>
-            <span className="text-xs font-bold text-red-600 bg-red-50 dark:bg-red-900/20 px-1.5 py-0.5 rounded leading-none">
-              -5%
-            </span>
-          </div>
-          <p className="text-xs text-slate-400 mt-2">
-            {t("dashboard.demandPeak")}
-          </p>
-        </div>
-        <div className="bg-white dark:bg-slate-950 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-slate-500">
-              {t("dashboard.usageRate")}
-            </span>
-            <span className="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg text-lg">
-              bolt
-            </span>
-          </div>
-          <div className="mt-4 flex items-baseline gap-2">
-            <p className="text-2xl font-bold text-slate-900 dark:text-white leading-none">
-              68.5%
-            </p>
-            <span className="text-xs font-bold text-green-600 bg-green-50 dark:bg-green-900/20 px-1.5 py-0.5 rounded leading-none">
-              +12%
-            </span>
-          </div>
-          <div className="mt-3 w-full bg-slate-100 dark:bg-slate-900 h-1.5 rounded-full overflow-hidden">
-            <div
-              className="bg-primary h-full rounded-full"
-              style={{ width: "68.5%" }}
-            ></div>
-          </div>
-        </div>
-        <div className="bg-white dark:bg-slate-950 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-slate-500">
-              {t("dashboard.budgetVsActual")}
-            </span>
-            <span className="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg text-lg">
-              account_balance_wallet
-            </span>
-          </div>
-          <div className="mt-4 flex items-baseline gap-2">
-            <p className="text-2xl font-bold text-slate-900 dark:text-white leading-none">
-              72%
-            </p>
-            <span className="text-xs font-bold text-green-600 bg-green-50 dark:bg-green-900/20 px-1.5 py-0.5 rounded leading-none">
-              +8%
-            </span>
-          </div>
-          <p className="text-xs text-slate-400 mt-2">
-            $34,500 {t("dashboard.remainingBudget")}
-          </p>
-        </div>
+        {STATS.map((stat, idx) => (
+          <StatCard key={idx} {...stat} />
+        ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -316,144 +313,65 @@ export default function Home() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/30 transition-colors">
-                <td className="px-8 py-4">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">
-                      SF
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-slate-900 dark:text-white">
-                        Summer Foodie Fest
-                      </p>
-                      <p className="text-[10px] text-slate-500 uppercase tracking-tighter">
-                        Food & Beverage
-                      </p>
-                    </div>
-                  </div>
-                </td>
-                <td className="px-8 py-4">
-                  <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 uppercase">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-600"></span>
-                    Active
-                  </span>
-                </td>
-                <td className="px-8 py-4">
-                  <div className="flex items-center gap-2">
-                    <div className="w-24 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full">
+              {ACTIVE_CAMPAIGNS.map((campaign) => (
+                <tr
+                  key={campaign.id}
+                  className="hover:bg-slate-50 dark:hover:bg-slate-900/30 transition-colors"
+                >
+                  <td className="px-8 py-4">
+                    <div className="flex items-center gap-3">
                       <div
-                        className="h-full bg-primary rounded-full"
-                        style={{ width: "82%" }}
-                      ></div>
+                        className={`h-10 w-10 rounded flex items-center justify-center font-bold ${campaign.colorClass}`}
+                      >
+                        {campaign.initials}
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold text-slate-900 dark:text-white">
+                          {campaign.name}
+                        </p>
+                        <p className="text-[10px] text-slate-500 uppercase tracking-tighter">
+                          {campaign.category}
+                        </p>
+                      </div>
                     </div>
-                    <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
-                      82%
+                  </td>
+                  <td className="px-8 py-4">
+                    <span
+                      className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-bold uppercase ${campaign.statusColorClass}`}
+                    >
+                      <span
+                        className={`w-1.5 h-1.5 rounded-full ${campaign.statusDotClass}`}
+                      ></span>
+                      {campaign.status}
                     </span>
-                  </div>
-                </td>
-                <td className="px-8 py-4">
-                  <p className="text-sm font-bold text-slate-900 dark:text-white">
-                    $42,300
-                  </p>
-                </td>
-                <td className="px-8 py-4 text-right">
-                  <button className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-                    <span className="material-symbols-outlined">more_vert</span>
-                  </button>
-                </td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/30 transition-colors">
-                <td className="px-8 py-4">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded bg-pink-100 flex items-center justify-center text-pink-600 font-bold">
-                      BS
+                  </td>
+                  <td className="px-8 py-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-24 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full">
+                        <div
+                          className={`h-full rounded-full ${campaign.usageBarColor}`}
+                          style={{ width: `${campaign.usageRate}%` }}
+                        ></div>
+                      </div>
+                      <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                        {campaign.usageRate}%
+                      </span>
                     </div>
-                    <div>
-                      <p className="text-sm font-bold text-slate-900 dark:text-white">
-                        Back to School Promo
-                      </p>
-                      <p className="text-[10px] text-slate-500 uppercase tracking-tighter">
-                        Retail
-                      </p>
-                    </div>
-                  </div>
-                </td>
-                <td className="px-8 py-4">
-                  <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 uppercase">
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
-                    Pending
-                  </span>
-                </td>
-                <td className="px-8 py-4">
-                  <div className="flex items-center gap-2">
-                    <div className="w-24 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full">
-                      <div
-                        className="h-full bg-slate-300 dark:bg-slate-600 rounded-full"
-                        style={{ width: "0%" }}
-                      ></div>
-                    </div>
-                    <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
-                      0%
-                    </span>
-                  </div>
-                </td>
-                <td className="px-8 py-4">
-                  <p className="text-sm font-bold text-slate-900 dark:text-white">
-                    $0
-                  </p>
-                </td>
-                <td className="px-8 py-4 text-right">
-                  <button className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-                    <span className="material-symbols-outlined">more_vert</span>
-                  </button>
-                </td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/30 transition-colors">
-                <td className="px-8 py-4">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold">
-                      WE
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-slate-900 dark:text-white">
-                        Weekend Escape Vouchers
-                      </p>
-                      <p className="text-[10px] text-slate-500 uppercase tracking-tighter">
-                        Travel
-                      </p>
-                    </div>
-                  </div>
-                </td>
-                <td className="px-8 py-4">
-                  <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 uppercase">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-600"></span>
-                    Active
-                  </span>
-                </td>
-                <td className="px-8 py-4">
-                  <div className="flex items-center gap-2">
-                    <div className="w-24 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full">
-                      <div
-                        className="h-full bg-primary rounded-full"
-                        style={{ width: "45%" }}
-                      ></div>
-                    </div>
-                    <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
-                      45%
-                    </span>
-                  </div>
-                </td>
-                <td className="px-8 py-4">
-                  <p className="text-sm font-bold text-slate-900 dark:text-white">
-                    $18,900
-                  </p>
-                </td>
-                <td className="px-8 py-4 text-right">
-                  <button className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-                    <span className="material-symbols-outlined">more_vert</span>
-                  </button>
-                </td>
-              </tr>
+                  </td>
+                  <td className="px-8 py-4">
+                    <p className="text-sm font-bold text-slate-900 dark:text-white">
+                      {campaign.revenue}
+                    </p>
+                  </td>
+                  <td className="px-8 py-4 text-right">
+                    <button className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                      <span className="material-symbols-outlined">
+                        more_vert
+                      </span>
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
