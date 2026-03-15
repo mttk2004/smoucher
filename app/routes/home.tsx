@@ -8,9 +8,37 @@ export function meta({}: Route.MetaArgs) {
 }
 
 import { useTranslation } from "react-i18next";
+import {
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  BarChart,
+  Bar,
+} from "recharts";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { PageHeader } from "../components/PageHeader";
 import { StatCard } from "../components/dashboard/StatCard";
+
+const REVENUE_DATA = [
+  { name: "Mon", value: 4000 },
+  { name: "Tue", value: 3000 },
+  { name: "Wed", value: 2000 },
+  { name: "Thu", value: 2780 },
+  { name: "Fri", value: 1890 },
+  { name: "Sat", value: 2390 },
+  { name: "Sun", value: 3490 },
+];
+
+const USAGE_DATA = [
+  { name: "Wk 1", value: 40 },
+  { name: "Wk 2", value: 85 },
+  { name: "Wk 3", value: 55 },
+  { name: "Wk 4", value: 70 },
+];
 
 export default function Home() {
   const { t } = useTranslation();
@@ -152,61 +180,58 @@ export default function Home() {
               </button>
             </div>
           </div>
-          <div className="h-64 w-full flex flex-col justify-end">
-            <svg
-              className="w-full h-full"
-              preserveAspectRatio="none"
-              viewBox="0 0 400 150"
-            >
-              <defs>
-                <linearGradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
-                  <stop
-                    offset="0%"
-                    stopColor="#3211d4"
-                    stopOpacity="0.2"
-                  ></stop>
-                  <stop
-                    offset="100%"
-                    stopColor="#3211d4"
-                    stopOpacity="0"
-                  ></stop>
-                </linearGradient>
-              </defs>
-              <path
-                d="M0,120 Q50,110 80,70 T160,50 T240,90 T320,30 T400,40 L400,150 L0,150 Z"
-                fill="url(#chartGradient)"
-              ></path>
-              <path
-                d="M0,120 Q50,110 80,70 T160,50 T240,90 T320,30 T400,40"
-                fill="none"
-                stroke="#3211d4"
-                strokeLinecap="round"
-                strokeWidth="4"
-              ></path>
-            </svg>
-            <div className="flex justify-between mt-4 px-2">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                Mon
-              </span>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                Tue
-              </span>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                Wed
-              </span>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                Thu
-              </span>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                Fri
-              </span>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                Sat
-              </span>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                Sun
-              </span>
-            </div>
+          <div className="h-64 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart
+                data={REVENUE_DATA}
+                margin={{ top: 10, right: 0, left: -20, bottom: 0 }}
+              >
+                <defs>
+                  <linearGradient
+                    id="chartGradient"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop offset="5%" stopColor="#3211d4" stopOpacity={0.2} />
+                    <stop offset="95%" stopColor="#3211d4" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  vertical={false}
+                  stroke="#e2e8f0"
+                />
+                <XAxis
+                  dataKey="name"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 10, fontWeight: "bold", fill: "#94a3b8" }}
+                  dy={10}
+                />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 10, fill: "#94a3b8" }}
+                />
+                <Tooltip
+                  contentStyle={{
+                    borderRadius: "8px",
+                    border: "none",
+                    boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                  }}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#3211d4"
+                  strokeWidth={3}
+                  fillOpacity={1}
+                  fill="url(#chartGradient)"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
         </div>
 
@@ -232,39 +257,45 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="flex-1 flex items-end gap-6 justify-between h-64 px-4">
-            <div className="flex flex-col items-center flex-1 gap-4">
-              <div className="w-full bg-slate-100 dark:bg-slate-900 rounded-lg relative overflow-hidden group h-24">
-                <div className="absolute bottom-0 w-full bg-primary/20 group-hover:bg-primary/40 transition-colors h-[40%] rounded-t"></div>
-              </div>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                Wk 1
-              </span>
-            </div>
-            <div className="flex flex-col items-center flex-1 gap-4">
-              <div className="w-full bg-slate-100 dark:bg-slate-900 rounded-lg relative overflow-hidden group h-24">
-                <div className="absolute bottom-0 w-full bg-primary group-hover:bg-primary/90 transition-colors h-[85%] rounded-t"></div>
-              </div>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                Wk 2
-              </span>
-            </div>
-            <div className="flex flex-col items-center flex-1 gap-4">
-              <div className="w-full bg-slate-100 dark:bg-slate-900 rounded-lg relative overflow-hidden group h-24">
-                <div className="absolute bottom-0 w-full bg-primary/20 group-hover:bg-primary/40 transition-colors h-[55%] rounded-t"></div>
-              </div>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                Wk 3
-              </span>
-            </div>
-            <div className="flex flex-col items-center flex-1 gap-4">
-              <div className="w-full bg-slate-100 dark:bg-slate-900 rounded-lg relative overflow-hidden group h-24">
-                <div className="absolute bottom-0 w-full bg-primary/20 group-hover:bg-primary/40 transition-colors h-[70%] rounded-t"></div>
-              </div>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                Wk 4
-              </span>
-            </div>
+          <div className="h-64 w-full mt-4">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={USAGE_DATA}
+                margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+              >
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  vertical={false}
+                  stroke="#e2e8f0"
+                />
+                <XAxis
+                  dataKey="name"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 10, fontWeight: "bold", fill: "#94a3b8" }}
+                  dy={10}
+                />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 10, fill: "#94a3b8" }}
+                />
+                <Tooltip
+                  cursor={{ fill: "transparent" }}
+                  contentStyle={{
+                    borderRadius: "8px",
+                    border: "none",
+                    boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                  }}
+                />
+                <Bar
+                  dataKey="value"
+                  fill="#3211d4"
+                  radius={[4, 4, 0, 0]}
+                  barSize={32}
+                />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
           <div className="p-4 bg-primary/5 rounded-xl flex items-center gap-4">
             <div className="bg-primary/20 text-primary p-2 rounded-lg">
