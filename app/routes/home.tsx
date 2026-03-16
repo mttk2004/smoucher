@@ -19,128 +19,163 @@ import {
   BarChart,
   Bar,
 } from "recharts";
+import { format, subDays } from "date-fns";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { PageHeader } from "../components/PageHeader";
 import { StatCard } from "../components/dashboard/StatCard";
+import { useDashboardOverview, useUsageTrend } from "../hooks/useDashboard";
+import { useState } from "react";
 
-const REVENUE_DATA = [
-  { name: "Mon", value: 4000 },
-  { name: "Tue", value: 3000 },
-  { name: "Wed", value: 2000 },
-  { name: "Thu", value: 2780 },
-  { name: "Fri", value: 1890 },
-  { name: "Sat", value: 2390 },
-  { name: "Sun", value: 3490 },
-];
+const getInitials = (name: string) => {
+  return name.substring(0, 2).toUpperCase();
+};
 
-const USAGE_DATA = [
-  { name: "Wk 1", value: 40 },
-  { name: "Wk 2", value: 85 },
-  { name: "Wk 3", value: 55 },
-  { name: "Wk 4", value: 70 },
-];
+const getStatusStyles = (status: string) => {
+  switch (status) {
+    case "ACTIVE":
+      return {
+        colorClass: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+        dotClass: "bg-green-600",
+      };
+    case "PAUSED":
+      return {
+        colorClass: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
+        dotClass: "bg-amber-600",
+      };
+    case "EXPIRED":
+    case "INACTIVE":
+      return {
+        colorClass: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
+        dotClass: "bg-red-600",
+      };
+    case "SCHEDULED":
+      return {
+        colorClass: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+        dotClass: "bg-blue-600",
+      };
+    default:
+      return {
+        colorClass: "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400",
+        dotClass: "bg-slate-500",
+      };
+  }
+};
 
 export default function Home() {
   const { t } = useTranslation();
+  const [dateRange, setDateRange] = useState(30);
+
+  const today = new Date();
+  const fromDate = subDays(today, dateRange).toISOString();
+  const toDate = today.toISOString();
+
+  const { data: overview, isLoading: isOverviewLoading, error: overviewError } = useDashboardOverview();
+  const { data: usageTrend, isLoading: isUsageTrendLoading, error: usageTrendError } = useUsageTrend(fromDate, toDate, "DAY");
+
+  if (isOverviewLoading || isUsageTrendLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center text-slate-500">
+        <span className="material-symbols-outlined animate-spin text-4xl">progress_activity</span>
+      </div>
+    );
+  }
+
+  if (overviewError || usageTrendError) {
+    return (
+      <div className="flex h-screen items-center justify-center text-red-500">
+        <p>Error loading dashboard data. Please try again.</p>
+      </div>
+    );
+  }
 
   const STATS = [
     {
-      title: t("dashboard.activeCampaigns"),
-      icon: "campaign",
-      value: "12",
-      trend: "+2.5%",
-      trendDirection: "up" as const,
-      description: t("dashboard.vsLastMonth"),
-    },
-    {
-      title: t("dashboard.vouchersDistributed"),
+      title: t("dashboard.totalVouchers") || "Total Vouchers",
       icon: "confirmation_number",
-      value: "45,280",
-      trend: "-5%",
-      trendDirection: "down" as const,
-      description: t("dashboard.demandPeak"),
+      value: overview?.totalVouchers.toLocaleString() || "0",
+      trend: "",
+      trendDirection: "up" as const,
+      description: t("dashboard.totalCreatedVouchers") || "Total created vouchers",
     },
     {
-      title: t("dashboard.usageRate"),
+      title: t("dashboard.activeVouchers") || "Active Vouchers",
+      icon: "campaign",
+      value: overview?.activeVouchers.toLocaleString() || "0",
+      trend: "",
+      trendDirection: "up" as const,
+      description: t("dashboard.currentlyActiveVouchers") || "Currently active vouchers",
+    },
+    {
+      title: t("dashboard.totalUsages") || "Total Usages",
       icon: "bolt",
-      value: "68.5%",
-      trend: "+12%",
+      value: overview?.totalUsages.toLocaleString() || "0",
+      trend: "",
       trendDirection: "up" as const,
-      progress: 68.5,
+      description: t("dashboard.totalVoucherRedemptions") || "Total voucher redemptions",
     },
     {
-      title: t("dashboard.budgetVsActual"),
+      title: t("dashboard.discountAmount") || "Discount Amount",
       icon: "account_balance_wallet",
-      value: "72%",
-      trend: "+8%",
+      value: `$${(overview?.totalDiscountAmount || 0).toLocaleString()}`,
+      trend: "",
       trendDirection: "up" as const,
-      description: `$34,500 ${t("dashboard.remainingBudget")}`,
+      description: `${t("dashboard.conversionRate") || "Conversion Rate"}: ${((overview?.conversionRate || 0) * 100).toFixed(1)}%`,
     },
   ];
 
-  const ACTIVE_CAMPAIGNS = [
-    {
-      id: "SF",
-      initials: "SF",
-      colorClass: "bg-indigo-100 text-indigo-600",
-      name: "Summer Foodie Fest",
-      category: "Food & Beverage",
-      status: "Active",
-      statusColorClass:
-        "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
-      statusDotClass: "bg-green-600",
-      usageRate: 82,
+  const ACTIVE_CAMPAIGNS = (overview?.topVouchers || []).map((voucher, index) => {
+    const { colorClass, dotClass } = getStatusStyles(voucher.status);
+    const usageRate = voucher.maxUsageTotal > 0 ? Math.round((voucher.currentUsageCount / voucher.maxUsageTotal) * 100) : 0;
+
+    // Assign random colors for initials background for visual variety
+    const bgColors = ["bg-indigo-100 text-indigo-600", "bg-pink-100 text-pink-600", "bg-emerald-100 text-emerald-600", "bg-amber-100 text-amber-600"];
+    const initialsColor = bgColors[index % bgColors.length];
+
+    return {
+      id: voucher.id,
+      initials: getInitials(voucher.code),
+      colorClass: initialsColor,
+      name: voucher.code,
+      category: voucher.campaignName || "General",
+      status: voucher.status,
+      statusColorClass: colorClass,
+      statusDotClass: dotClass,
+      usageRate: usageRate,
       usageBarColor: "bg-primary",
-      revenue: "$42,300",
-    },
-    {
-      id: "BS",
-      initials: "BS",
-      colorClass: "bg-pink-100 text-pink-600",
-      name: "Back to School Promo",
-      category: "Retail",
-      status: "Pending",
-      statusColorClass:
-        "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
-      statusDotClass: "bg-amber-600",
-      usageRate: 0,
-      usageBarColor: "bg-slate-300 dark:bg-slate-600",
-      revenue: "$0",
-    },
-    {
-      id: "WE",
-      initials: "WE",
-      colorClass: "bg-emerald-100 text-emerald-600",
-      name: "Weekend Escape Vouchers",
-      category: "Travel",
-      status: "Active",
-      statusColorClass:
-        "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
-      statusDotClass: "bg-green-600",
-      usageRate: 45,
-      usageBarColor: "bg-primary",
-      revenue: "$18,900",
-    },
-  ];
+      revenue: `$${(voucher.discountValue || 0).toLocaleString()}`,
+    };
+  });
+
+  const REVENUE_DATA = overview?.revenueByDay
+    ? Object.entries(overview.revenueByDay).map(([date, value]) => ({
+        name: format(new Date(date), "MMM dd"),
+        value,
+      }))
+    : [];
+
+  const USAGE_DATA = (usageTrend || []).map((trend) => ({
+    name: format(new Date(trend.period), "MMM dd"),
+    value: trend.usageCount,
+  }));
 
   return (
     <div className="flex flex-col gap-8">
       <PageHeader
-        title={t("dashboard.title")}
-        description={t("dashboard.description")}
+        title="Dashboard"
+        description="Smart Voucher Management System Overview"
         actions={
           <>
             <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-700 bg-white border border-slate-200 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
               <span className="material-symbols-outlined text-lg">
                 calendar_today
               </span>
-              {t("dashboard.last30Days")}
+              Last {dateRange} Days
             </button>
             <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-700 bg-white border border-slate-200 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
               <span className="material-symbols-outlined text-lg">
                 download
               </span>
-              {t("dashboard.exportReport")}
+              Export Report
             </button>
           </>
         }
@@ -157,25 +192,33 @@ export default function Home() {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                {t("dashboard.revenueOverTime")}
+                Revenue Over Time
               </h3>
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-3xl font-black text-slate-900 dark:text-white">
-                  $124,500
-                </span>
-                <span className="text-sm font-bold text-green-600 flex items-center">
-                  <span className="material-symbols-outlined text-sm">
-                    trending_up
-                  </span>
-                  14.2%
+                  ${(overview?.totalDiscountAmount || 0).toLocaleString()}
                 </span>
               </div>
             </div>
             <div className="flex gap-1 bg-slate-100 dark:bg-slate-900 p-1 rounded-lg">
-              <button className="px-3 py-1 text-xs font-bold rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm">
+              <button
+                className={`px-3 py-1 text-xs font-bold rounded shadow-sm ${
+                  dateRange === 30
+                    ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+                onClick={() => setDateRange(30)}
+              >
                 30d
               </button>
-              <button className="px-3 py-1 text-xs font-medium rounded text-slate-500 hover:text-slate-700">
+              <button
+                className={`px-3 py-1 text-xs font-medium rounded ${
+                  dateRange === 90
+                    ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+                onClick={() => setDateRange(90)}
+              >
                 90d
               </button>
             </div>
@@ -239,20 +282,14 @@ export default function Home() {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                {t("dashboard.usageTrends")}
+                Usage Trends
               </h3>
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-3xl font-black text-slate-900 dark:text-white">
-                  8,432
+                  {overview?.totalUsages.toLocaleString() || "0"}
                 </span>
                 <span className="text-sm font-medium text-slate-500">
-                  {t("dashboard.redemptionsThisWeek")}
-                </span>
-                <span className="text-sm font-bold text-green-600 flex items-center">
-                  <span className="material-symbols-outlined text-sm">
-                    trending_up
-                  </span>
-                  5.7%
+                  Total Redemptions
                 </span>
               </div>
             </div>
@@ -305,9 +342,9 @@ export default function Home() {
             </div>
             <p className="text-xs text-slate-600 dark:text-slate-400 leading-snug">
               <strong className="text-primary">
-                {t("dashboard.insight")}:
+                Insight:
               </strong>{" "}
-              {t("dashboard.insightText")}
+              Usage has been increasing in the last few days, consider increasing voucher limits.
             </p>
           </div>
         </div>
@@ -316,10 +353,10 @@ export default function Home() {
       <div className="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
         <div className="px-8 py-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
           <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-            {t("dashboard.activeCampaignsTable")}
+            Top Performing Vouchers
           </h3>
           <button className="text-sm font-semibold text-primary hover:underline">
-            {t("dashboard.viewAll")}
+            View All
           </button>
         </div>
         <div className="overflow-x-auto">
@@ -327,19 +364,19 @@ export default function Home() {
             <thead>
               <tr className="bg-slate-50 dark:bg-slate-900/50">
                 <th className="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                  {t("dashboard.campaignName")}
+                  Voucher Code
                 </th>
                 <th className="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                  {t("dashboard.status")}
+                  Status
                 </th>
                 <th className="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                  {t("dashboard.usageRate")}
+                  Usage Rate
                 </th>
                 <th className="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                  {t("dashboard.revenueGenerated")}
+                  Discount Amount
                 </th>
                 <th className="px-8 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">
-                  {t("dashboard.action")}
+                  Action
                 </th>
               </tr>
             </thead>
