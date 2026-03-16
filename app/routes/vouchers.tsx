@@ -7,8 +7,8 @@ import { useQueryStates, parseAsString, parseAsInteger } from "nuqs";
 import { useVouchers, usePauseVoucher, useResumeVoucher, useDeleteVoucher, useGenerateVoucherCodes } from "../hooks/useVouchers";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
-import { useState, useRef, useEffect } from "react";
-import { VoucherResponse } from "../types/dashboard";
+import { useState, useEffect } from "react";
+import type { VoucherResponse } from "../types/dashboard";
 
 export function meta({}: Route.MetaArgs) {
   return [
