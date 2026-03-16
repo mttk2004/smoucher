@@ -6,8 +6,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useLogin } from "../hooks/useAuth";
-import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useNavigate, data, redirect, useSearchParams } from "react-router";
+import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 
 const loginSchema = z.object({
   username: z.string().min(1, { message: "Username is required" }),
@@ -15,6 +16,17 @@ const loginSchema = z.object({
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
+
+export async function loader({ request }: Route.LoaderArgs) {
+  const cookieHeader = request.headers.get("Cookie");
+  const hasAccessToken = cookieHeader?.includes("accessToken=");
+
+  if (hasAccessToken) {
+    return redirect("/?error=already_logged_in");
+  }
+
+  return data({});
+}
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -24,7 +36,18 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Login() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const { t } = useTranslation();
+
+  useEffect(() => {
+    const error = searchParams.get("error");
+    if (error === "unauthorized") {
+      toast.error(t("login.unauthorized", { defaultValue: "Please login to access this page" }));
+      // remove the error param so it doesn't stay in the URL
+      setSearchParams(new URLSearchParams());
+    }
+  }, [searchParams, setSearchParams, t]);
   const navigate = useNavigate();
   const loginMutation = useLogin();
   const [showPassword, setShowPassword] = useState(false);
@@ -40,7 +63,7 @@ export default function Login() {
   const onSubmit = (data: LoginFormValues) => {
     loginMutation.mutate(data, {
       onSuccess: () => {
-        navigate("/");
+        navigate("/?success=logged_in");
       },
     });
   };

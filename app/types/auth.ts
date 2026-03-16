@@ -21,3 +21,22 @@ export interface ApiResponseLoginResponse {
   data?: LoginResponse;
   error?: ErrorDetail;
 }
+
+export interface UserResponse {
+  id?: number;
+  username?: string;
+  email?: string;
+  fullName?: string;
+  phone?: string;
+  role?: "ADMIN" | "STAFF" | "USER";
+  status?: "PENDING" | "ACTIVE" | "REJECTED";
+  isActive?: boolean;
+  createdAt?: string;
+}
+
+export interface ApiResponseUserResponse {
+  success?: boolean;
+  message?: string;
+  data?: UserResponse;
+  error?: ErrorDetail;
+}
