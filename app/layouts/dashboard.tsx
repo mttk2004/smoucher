@@ -1,11 +1,42 @@
-import { useState } from "react";
-import { Outlet, NavLink, Link } from "react-router";
+import { useState, useEffect } from "react";
+import { Outlet, NavLink, Link, redirect, data, useSearchParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
+import type { Route } from "./+types/dashboard";
+import toast from "react-hot-toast";
+import { useUser } from "../hooks/useAuth";
+
+export async function loader({ request }: Route.LoaderArgs) {
+  const cookieHeader = request.headers.get("Cookie");
+  const hasAccessToken = cookieHeader?.includes("accessToken=");
+
+  if (!hasAccessToken) {
+    return redirect("/login?error=unauthorized");
+  }
+
+  return data({});
+}
 
 export default function DashboardLayout() {
   const { t } = useTranslation();
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { data: user } = useUser();
+  const isAdmin = user?.role === "ADMIN";
+
+  useEffect(() => {
+    const success = searchParams.get("success");
+    if (success === "logged_in") {
+      toast.success(t("login.success", { defaultValue: "Login successful!" }));
+      setSearchParams(new URLSearchParams());
+    }
+
+    const error = searchParams.get("error");
+    if (error === "already_logged_in") {
+      toast.error(t("login.alreadyLoggedIn", { defaultValue: "You are already logged in." }));
+      setSearchParams(new URLSearchParams());
+    }
+  }, [searchParams, setSearchParams, t]);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -36,15 +67,17 @@ export default function DashboardLayout() {
             <span className="material-symbols-outlined">dashboard</span>
             {t("nav.dashboard")}
           </NavLink>
-          <NavLink
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg ${isActive ? "bg-primary/10 text-primary" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"}`
-            }
-            to="/campaigns"
-          >
-            <span className="material-symbols-outlined">campaign</span>
-            {t("nav.campaigns")}
-          </NavLink>
+          {isAdmin && (
+            <NavLink
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg ${isActive ? "bg-primary/10 text-primary" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"}`
+              }
+              to="/campaigns"
+            >
+              <span className="material-symbols-outlined">campaign</span>
+              {t("nav.campaigns")}
+            </NavLink>
+          )}
           <NavLink
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg ${isActive ? "bg-primary/10 text-primary" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"}`
@@ -72,20 +105,24 @@ export default function DashboardLayout() {
             <span className="material-symbols-outlined">group</span>
             {t("nav.customers")}
           </NavLink>
-          <div className="pt-4 pb-2">
-            <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-              {t("nav.system")}
-            </p>
-          </div>
-          <NavLink
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg ${isActive || (typeof window !== "undefined" && window.location.pathname.startsWith("/settings")) ? "bg-primary/10 text-primary" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"}`
-            }
-            to="/settings/api-keys"
-          >
-            <span className="material-symbols-outlined">settings</span>
-            {t("nav.settings")}
-          </NavLink>
+          {isAdmin && (
+            <>
+              <div className="pt-4 pb-2">
+                <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                  {t("nav.system")}
+                </p>
+              </div>
+              <NavLink
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg ${isActive || (typeof window !== "undefined" && window.location.pathname.startsWith("/settings")) ? "bg-primary/10 text-primary" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"}`
+                }
+                to="/settings/api-keys"
+              >
+                <span className="material-symbols-outlined">settings</span>
+                {t("nav.settings")}
+              </NavLink>
+            </>
+          )}
         </nav>
         <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex justify-center">
           <LanguageSwitcher />
@@ -152,31 +189,40 @@ export default function DashboardLayout() {
                   <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-800 py-2 z-50">
                     <div className="px-4 py-2 border-b border-slate-100 dark:border-slate-800 mb-1 sm:hidden">
                       <p className="text-sm font-bold text-slate-900 dark:text-white">
-                        Alex Rivera
+                        {user?.fullName || "Alex Rivera"}
                       </p>
                       <p className="text-xs text-slate-500">
-                        {t("common.marketingDirector")}
+                        {user?.role === "ADMIN" ? t("common.adminRole", { defaultValue: "Administrator" }) : t("common.staffRole", { defaultValue: "Staff" })}
                       </p>
                     </div>
-                    <Link
-                      to="/settings/users"
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-                      onClick={() => setIsProfileDropdownOpen(false)}
-                    >
-                      <span className="material-symbols-outlined text-base">
-                        person
-                      </span>
-                      {t("nav.settings")}
-                    </Link>
-                    <Link
-                      to="/login"
+                    {isAdmin && (
+                      <Link
+                        to="/settings/users"
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                        onClick={() => setIsProfileDropdownOpen(false)}
+                      >
+                        <span className="material-symbols-outlined text-base">
+                          person
+                        </span>
+                        {t("nav.settings")}
+                      </Link>
+                    )}
+                    <button
+                      onClick={() => {
+                        setIsProfileDropdownOpen(false);
+                        // Using a simple window.location allows server to clear cookies
+                        // or we could clear it here:
+                        document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                        document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                        window.location.href = "/login";
+                      }}
                       className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 text-left transition-colors"
                     >
                       <span className="material-symbols-outlined text-base">
                         logout
                       </span>
-                      {t("login.signOut", "Sign out")}
-                    </Link>
+                      {t("login.signOut", { defaultValue: "Sign out" })}
+                    </button>
                   </div>
                 </>
               )}

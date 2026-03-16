@@ -1,6 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { api } from "../lib/api";
-import type { LoginRequest, ApiResponseLoginResponse } from "../types/auth";
+import type { LoginRequest, ApiResponseLoginResponse, ApiResponseUserResponse } from "../types/auth";
 import Cookies from "js-cookie";
 
 export const useLogin = () => {
@@ -30,5 +30,19 @@ export const useLogin = () => {
         Cookies.set("refreshToken", data.data.refreshToken, { secure: true });
       }
     },
+  });
+};
+
+export const useUser = () => {
+  return useQuery({
+    queryKey: ["user"],
+    queryFn: async () => {
+      const response = await api.get<ApiResponseUserResponse>("/api/v1/auth/me");
+      if (!response.data.success) {
+        throw new Error(response.data.message || "Failed to fetch user");
+      }
+      return response.data.data;
+    },
+    retry: false, // Don't retry on unauthorized
   });
 };
