@@ -47,6 +47,12 @@ export default function Login() {
       // remove the error param so it doesn't stay in the URL
       setSearchParams(new URLSearchParams());
     }
+
+    const success = searchParams.get("success");
+    if (success === "logged_out") {
+      toast.success(t("login.loggedOut", { defaultValue: "Successfully logged out" }));
+      setSearchParams(new URLSearchParams());
+    }
   }, [searchParams, setSearchParams, t]);
   const navigate = useNavigate();
   const loginMutation = useLogin();

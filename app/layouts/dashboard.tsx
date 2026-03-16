@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import type { Route } from "./+types/dashboard";
 import toast from "react-hot-toast";
-import { useUser } from "../hooks/useAuth";
+import { useUser, useLogout } from "../hooks/useAuth";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const cookieHeader = request.headers.get("Cookie");
@@ -22,6 +22,7 @@ export default function DashboardLayout() {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const { data: user } = useUser();
+  const logout = useLogout();
   const isAdmin = user?.role === "ADMIN";
 
   useEffect(() => {
@@ -210,11 +211,7 @@ export default function DashboardLayout() {
                     <button
                       onClick={() => {
                         setIsProfileDropdownOpen(false);
-                        // Using a simple window.location allows server to clear cookies
-                        // or we could clear it here:
-                        document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                        document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                        window.location.href = "/login";
+                        logout();
                       }}
                       className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 text-left transition-colors"
                     >

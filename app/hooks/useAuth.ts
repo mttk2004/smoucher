@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "../lib/api";
 import type { LoginRequest, ApiResponseLoginResponse, ApiResponseUserResponse } from "../types/auth";
 import Cookies from "js-cookie";
@@ -45,4 +45,21 @@ export const useUser = () => {
     },
     retry: false, // Don't retry on unauthorized
   });
+};
+
+export const useLogout = () => {
+  const queryClient = useQueryClient();
+
+  return () => {
+    // Remove auth cookies
+    Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
+
+    // Clear all queries from the cache to ensure no sensitive data is left
+    queryClient.clear();
+
+    // Force redirect to login page with a hard refresh
+    // This completely reloads the application state
+    window.location.href = "/login?success=logged_out";
+  };
 };
