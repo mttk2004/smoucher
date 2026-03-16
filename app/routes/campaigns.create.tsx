@@ -1,6 +1,12 @@
 import type { Route } from "./+types/campaigns.create";
 import { useTranslation } from "react-i18next";
 import { PageHeader } from "../components/PageHeader";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useCreateCampaign } from "../hooks/useCampaigns";
+import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,8 +15,57 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
+const campaignSchema = z.object({
+  name: z.string().min(3, "Campaign name must be at least 3 characters").max(100),
+  description: z.string().optional(),
+  startDate: z.string().refine((val) => !isNaN(Date.parse(val)), "Invalid start date"),
+  endDate: z.string().refine((val) => !isNaN(Date.parse(val)), "Invalid end date"),
+  budget: z.coerce.number().min(0, "Budget cannot be negative").optional(),
+}).refine(data => new Date(data.startDate) <= new Date(data.endDate), {
+  message: "End date cannot be before start date",
+  path: ["endDate"]
+});
+
+type CampaignFormValues = z.infer<typeof campaignSchema>;
+
 export default function CreateCampaign() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { mutate: createCampaign, isPending } = useCreateCampaign();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CampaignFormValues>({
+    resolver: zodResolver(campaignSchema),
+    defaultValues: {
+      name: "",
+      description: "",
+      budget: 0,
+    },
+  });
+
+  const onSubmit = (data: CampaignFormValues) => {
+    // Format dates to ISO strings with UTC 'Z' for backend (basic formatting)
+    const formattedData = {
+      ...data,
+      startDate: new Date(data.startDate).toISOString(),
+      endDate: new Date(data.endDate).toISOString(),
+      status: "DRAFT" as const, // Default status for new campaigns
+    };
+
+    createCampaign(formattedData, {
+      onSuccess: () => {
+        toast.success("Campaign created successfully");
+        navigate("/campaigns");
+      },
+      onError: () => {
+        toast.error("Failed to create campaign. Please try again.");
+      },
+    });
+  };
+
   return (
     <>
       <div className="w-full max-w-3xl flex flex-col gap-8">
@@ -57,7 +112,7 @@ export default function CreateCampaign() {
               </div>
             </div>
 
-            <form className="flex flex-col gap-6">
+            <form id="campaign-form" onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
               <div className="flex flex-col gap-2">
                 <label
                   className="text-sm font-semibold text-slate-700 dark:text-slate-300"
@@ -66,14 +121,19 @@ export default function CreateCampaign() {
                   {t("campaignsCreate.nameLabel")}
                 </label>
                 <input
-                  className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all"
+                  {...register("name")}
+                  className={`flex h-11 w-full rounded-lg border ${errors.name ? 'border-red-500 focus-visible:ring-red-500' : 'border-slate-200 dark:border-slate-800 focus-visible:ring-primary'} bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all`}
                   id="campaign-name"
                   placeholder={t("campaignsCreate.namePlaceholder")}
                   type="text"
                 />
-                <p className="text-[12px] text-slate-500">
-                  {t("campaignsCreate.nameHelp")}
-                </p>
+                {errors.name ? (
+                  <p className="text-[12px] text-red-500">{errors.name.message}</p>
+                ) : (
+                  <p className="text-[12px] text-slate-500">
+                    {t("campaignsCreate.nameHelp")}
+                  </p>
+                )}
               </div>
 
               <div className="flex flex-col gap-2">
@@ -84,11 +144,15 @@ export default function CreateCampaign() {
                   Description
                 </label>
                 <textarea
-                  className="flex min-h-[100px] w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all"
+                  {...register("description")}
+                  className={`flex min-h-[100px] w-full rounded-lg border ${errors.description ? 'border-red-500 focus-visible:ring-red-500' : 'border-slate-200 dark:border-slate-800 focus-visible:ring-primary'} bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all`}
                   id="description"
                   placeholder={t("campaignsCreate.descPlaceholder")}
                   rows={4}
                 ></textarea>
+                {errors.description && (
+                  <p className="text-[12px] text-red-500">{errors.description.message}</p>
+                )}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -101,14 +165,15 @@ export default function CreateCampaign() {
                   </label>
                   <div className="relative">
                     <input
-                      className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-all"
+                      {...register("startDate")}
+                      className={`flex h-11 w-full rounded-lg border ${errors.startDate ? 'border-red-500 focus-visible:ring-red-500' : 'border-slate-200 dark:border-slate-800 focus-visible:ring-primary'} bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 transition-all`}
                       id="start-date"
                       type="date"
                     />
-                    <span className="material-symbols-outlined absolute right-3 top-2.5 text-slate-400 pointer-events-none text-[20px]">
-                      calendar_today
-                    </span>
                   </div>
+                  {errors.startDate && (
+                    <p className="text-[12px] text-red-500">{errors.startDate.message}</p>
+                  )}
                 </div>
                 <div className="flex flex-col gap-2">
                   <label
@@ -119,14 +184,15 @@ export default function CreateCampaign() {
                   </label>
                   <div className="relative">
                     <input
-                      className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-all"
+                      {...register("endDate")}
+                      className={`flex h-11 w-full rounded-lg border ${errors.endDate ? 'border-red-500 focus-visible:ring-red-500' : 'border-slate-200 dark:border-slate-800 focus-visible:ring-primary'} bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 transition-all`}
                       id="end-date"
                       type="date"
                     />
-                    <span className="material-symbols-outlined absolute right-3 top-2.5 text-slate-400 pointer-events-none text-[20px]">
-                      calendar_today
-                    </span>
                   </div>
+                  {errors.endDate && (
+                    <p className="text-[12px] text-red-500">{errors.endDate.message}</p>
+                  )}
                 </div>
               </div>
 
@@ -143,12 +209,17 @@ export default function CreateCampaign() {
                       $
                     </span>
                     <input
-                      className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 pl-7 pr-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-all"
+                      {...register("budget")}
+                      className={`flex h-11 w-full rounded-lg border ${errors.budget ? 'border-red-500 focus-visible:ring-red-500' : 'border-slate-200 dark:border-slate-800 focus-visible:ring-primary'} bg-slate-50 dark:bg-slate-950 pl-7 pr-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 transition-all`}
                       id="budget"
                       placeholder="0.00"
                       type="number"
+                      step="0.01"
                     />
                   </div>
+                  {errors.budget && (
+                    <p className="text-[12px] text-red-500">{errors.budget.message}</p>
+                  )}
                 </div>
                 <div className="flex flex-col gap-2">
                   <label
@@ -160,6 +231,7 @@ export default function CreateCampaign() {
                   <select
                     className="flex h-11 w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-all appearance-none bg-no-repeat bg-[right_0.5rem_center]"
                     id="currency"
+                    defaultValue="usd"
                   >
                     <option value="usd">USD ($)</option>
                     <option value="eur">EUR (€)</option>
@@ -167,52 +239,27 @@ export default function CreateCampaign() {
                   </select>
                 </div>
               </div>
-
-              <div className="space-y-4 pt-4">
-                <div className="flex items-center space-x-2">
-                  <input
-                    className="size-4 rounded border-slate-300 text-primary focus:ring-primary"
-                    id="auto-optimize"
-                    type="checkbox"
-                  />
-                  <label
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-slate-700 dark:text-slate-300"
-                    htmlFor="auto-optimize"
-                  >
-                    Auto-optimize daily spend
-                  </label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <input
-                    defaultChecked
-                    className="size-4 rounded border-slate-300 text-primary focus:ring-primary"
-                    id="notifications"
-                    type="checkbox"
-                  />
-                  <label
-                    className="text-sm font-medium leading-none text-slate-700 dark:text-slate-300"
-                    htmlFor="notifications"
-                  >
-                    Receive email notifications for status changes
-                  </label>
-                </div>
-              </div>
             </form>
           </div>
 
           <div className="bg-slate-50 dark:bg-slate-950/50 px-6 md:px-8 py-4 flex items-center justify-between border-t border-slate-200 dark:border-slate-800">
-            <button className="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-              Save as Draft
+            <button
+              onClick={() => {
+                 navigate("/campaigns")
+              }}
+              type="button"
+              className="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            >
+              Cancel
             </button>
             <div className="flex gap-3">
-              <a
-                href="/campaigns"
-                className="px-4 py-2 rounded-lg text-sm font-semibold border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 transition-colors"
+              <button
+                type="submit"
+                form="campaign-form"
+                disabled={isPending}
+                className="px-6 py-2 rounded-lg text-sm font-semibold bg-primary text-white hover:bg-primary/90 shadow-md shadow-primary/20 transition-all disabled:opacity-50"
               >
-                Cancel
-              </a>
-              <button className="px-6 py-2 rounded-lg text-sm font-semibold bg-primary text-white hover:bg-primary/90 shadow-md shadow-primary/20 transition-all">
-                Continue to {t("campaignsCreate.step2")}
+                {isPending ? "Saving..." : "Create Campaign"}
               </button>
             </div>
           </div>
