@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { api } from "../lib/api";
-import type { LoginRequest, ApiResponseLoginResponse, ApiResponseUserResponse } from "../types/auth";
+import { api } from "../../lib/api";
+import type { LoginRequest, ApiResponseLoginResponse, ApiResponseUserResponse } from "./types";
 import Cookies from "js-cookie";
 
 export const useLogin = () => {

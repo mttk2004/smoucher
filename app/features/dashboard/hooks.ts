@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { api } from "../lib/api";
-import type { ApiResponse, DashboardOverviewResponse, UsageTrendResponse } from "../types/dashboard";
+import { api } from "../../lib/api";
+import type { ApiResponse, DashboardOverviewResponse, UsageTrendResponse } from "../dashboard/types";
 
 export const useDashboardOverview = () => {
   return useQuery({

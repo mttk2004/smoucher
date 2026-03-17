@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "../lib/api";
-import type { ApiResponse } from "../types/dashboard";
-import type { CampaignResponse, PageCampaignResponse, CampaignCreateRequest } from "../types/campaign";
+import { api } from "../../lib/api";
+import type { ApiResponse } from "../dashboard/types";
+import type { CampaignResponse, PageCampaignResponse, CampaignCreateRequest } from "../campaigns/types";
 
 export const useCampaigns = (
   page: number = 0,

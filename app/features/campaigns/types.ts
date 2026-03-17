@@ -1,4 +1,4 @@
-import { ApiResponse } from "./dashboard";
+import type { ApiResponse } from "../dashboard/types";
 
 export interface Pageable {
   page: number;

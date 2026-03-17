@@ -5,17 +5,14 @@ import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useLogin } from "../hooks/useAuth";
+import { useLogin } from "../features/auth/hooks";
 import { useNavigate, data, redirect, useSearchParams } from "react-router";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-
-const loginSchema = z.object({
-  username: z.string().min(1, { message: "Username is required" }),
-  password: z.string().min(1, { message: "Password is required" }),
-});
-
-type LoginFormValues = z.infer<typeof loginSchema>;
+import { loginSchema, type LoginFormValues } from "../features/auth/schemas";
+import { Button } from "../components/ui/Button";
+import { Input } from "../components/ui/Input";
+import { Label } from "../components/ui/Label";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const cookieHeader = request.headers.get("Cookie");
@@ -123,18 +120,15 @@ export default function Login() {
               )}
 
               <div className="flex flex-col gap-1.5">
-                <label
-                  className="text-sm font-medium text-slate-700 dark:text-slate-300"
-                  htmlFor="username"
-                >
+                <Label htmlFor="username">
                   {t("login.emailLabel")}
-                </label>
-                <input
+                </Label>
+                <Input
                   {...register("username")}
-                  className={`flex h-11 w-full rounded-lg border ${errors.username ? 'border-red-500' : 'border-slate-200 dark:border-slate-800'} bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm ring-offset-white placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
                   id="username"
                   placeholder={t("login.emailPlaceholder")}
                   type="text"
+                  className={errors.username ? 'border-red-500' : ''}
                 />
                 {errors.username && (
                   <span className="text-xs text-red-500">{errors.username.message}</span>
@@ -143,12 +137,9 @@ export default function Login() {
 
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center justify-between">
-                  <label
-                    className="text-sm font-medium text-slate-700 dark:text-slate-300"
-                    htmlFor="password"
-                  >
+                  <Label htmlFor="password">
                     {t("login.passwordLabel")}
-                  </label>
+                  </Label>
                   <a
                     className="text-sm font-medium text-primary hover:underline underline-offset-4"
                     href="#"
@@ -157,12 +148,12 @@ export default function Login() {
                   </a>
                 </div>
                 <div className="relative">
-                  <input
+                  <Input
                     {...register("password")}
-                    className={`flex h-11 w-full rounded-lg border ${errors.password ? 'border-red-500' : 'border-slate-200 dark:border-slate-800'} bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm ring-offset-white placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
                     id="password"
                     placeholder={t("login.passwordPlaceholder")}
                     type={showPassword ? "text" : "password"}
+                    className={errors.password ? 'border-red-500' : ''}
                   />
                   <button
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
@@ -179,13 +170,13 @@ export default function Login() {
                 )}
               </div>
 
-              <button
-                className="flex h-11 w-full items-center justify-center rounded-lg bg-primary px-8 text-sm font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:opacity-50"
+              <Button
                 type="submit"
                 disabled={loginMutation.isPending}
+                className="w-full mt-2"
               >
                 {loginMutation.isPending ? "Signing in..." : t("login.signIn")}
-              </button>
+              </Button>
             </form>
 
             <p className="mt-8 text-center text-sm text-slate-500 dark:text-slate-400">
