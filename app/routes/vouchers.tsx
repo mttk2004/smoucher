@@ -4,11 +4,11 @@ import type { Route } from "./+types/vouchers";
 import { useTranslation } from "react-i18next";
 import { PageHeader } from "../components/PageHeader";
 import { useQueryStates, parseAsString, parseAsInteger } from "nuqs";
-import { useVouchers, usePauseVoucher, useResumeVoucher, useDeleteVoucher, useGenerateVoucherCodes } from "../hooks/useVouchers";
+import { useVouchers, usePauseVoucher, useResumeVoucher, useDeleteVoucher, useGenerateVoucherCodes } from "../features/vouchers/hooks";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
-import type { VoucherResponse } from "../types/dashboard";
+import type { VoucherResponse } from "../features/dashboard/types";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -67,14 +67,12 @@ export default function Vouchers() {
   const handlePause = (id: number) => {
     pauseVoucher(id, {
       onSuccess: () => toast.success("Voucher paused successfully"),
-      onError: () => toast.error("Failed to pause voucher"),
     });
   };
 
   const handleResume = (id: number) => {
     resumeVoucher(id, {
       onSuccess: () => toast.success("Voucher resumed successfully"),
-      onError: () => toast.error("Failed to resume voucher"),
     });
   };
 
@@ -82,7 +80,6 @@ export default function Vouchers() {
     if (window.confirm("Are you sure you want to delete this voucher?")) {
       deleteVoucher(id, {
         onSuccess: () => toast.success("Voucher deleted successfully"),
-        onError: () => toast.error("Failed to delete voucher. It might have usages associated."),
       });
     }
   };
@@ -109,7 +106,6 @@ export default function Vouchers() {
           closeGenerateModal();
         },
         onError: () => {
-          toast.error("Failed to generate codes.");
         }
       }
     );

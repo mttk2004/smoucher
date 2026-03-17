@@ -23,7 +23,7 @@ import { format, subDays } from "date-fns";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { PageHeader } from "../components/PageHeader";
 import { StatCard } from "../components/dashboard/StatCard";
-import { useDashboardOverview, useUsageTrend } from "../hooks/useDashboard";
+import { useDashboardOverview, useUsageTrend } from "../features/dashboard/hooks";
 import { useState } from "react";
 
 const getInitials = (name: string) => {

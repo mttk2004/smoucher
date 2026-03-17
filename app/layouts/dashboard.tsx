@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import type { Route } from "./+types/dashboard";
 import toast from "react-hot-toast";
-import { useUser, useLogout } from "../hooks/useAuth";
+import { useUser, useLogout } from "../features/auth/hooks";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const cookieHeader = request.headers.get("Cookie");

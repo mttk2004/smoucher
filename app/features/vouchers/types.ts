@@ -1,5 +1,5 @@
-import { PageableObject } from "./campaign";
-import { VoucherResponse } from "./dashboard";
+import type { PageableObject } from "../campaigns/types";
+import type { VoucherResponse } from "../dashboard/types";
 
 export interface PageVoucherResponse {
   totalPages: number;

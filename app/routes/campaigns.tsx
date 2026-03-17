@@ -5,7 +5,7 @@ import { useQueryStates, parseAsString, parseAsInteger } from "nuqs";
 import { PageHeader } from "../components/PageHeader";
 import { Pagination } from "../components/ui/Pagination";
 import { Badge } from "../components/ui/Badge";
-import { useCampaigns, useUpdateCampaignStatus } from "../hooks/useCampaigns";
+import { useCampaigns, useUpdateCampaignStatus } from "../features/campaigns/hooks";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -58,7 +58,6 @@ export default function Campaigns() {
           toast.success("Campaign status updated successfully");
         },
         onError: () => {
-          toast.error("Failed to update campaign status");
         },
       }
     );

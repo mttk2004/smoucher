@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "../lib/api";
-import type { ApiResponse, VoucherResponse } from "../types/dashboard";
-import type { PageVoucherResponse, VoucherCreateRequest, UniqueCodeGenerateRequest, UniqueCodeGenerateResponse } from "../types/voucher";
+import { api } from "../../lib/api";
+import type { ApiResponse, VoucherResponse } from "../dashboard/types";
+import type { PageVoucherResponse, VoucherCreateRequest, UniqueCodeGenerateRequest, UniqueCodeGenerateResponse } from "../vouchers/types";
 
 export const useVouchers = (
   page: number = 0,
