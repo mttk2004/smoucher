@@ -4,7 +4,7 @@ import type { Route } from "./+types/vouchers";
 import { useTranslation } from "react-i18next";
 import { PageHeader } from "../components/PageHeader";
 import { useQueryStates, parseAsString, parseAsInteger } from "nuqs";
-import { useVouchers, usePauseVoucher, useResumeVoucher, useDeleteVoucher, useGenerateVoucherCodes } from "../features/vouchers/hooks";
+import { useVouchers, usePauseVoucher, useResumeVoucher, useDeleteVoucher, useGenerateVoucherCodes, useCloneVoucher } from "../features/vouchers/hooks";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
@@ -63,6 +63,7 @@ export default function Vouchers() {
   const { mutate: resumeVoucher, isPending: isResuming } = useResumeVoucher();
   const { mutate: deleteVoucher, isPending: isDeleting } = useDeleteVoucher();
   const { mutate: generateCodes, isPending: isGenerating } = useGenerateVoucherCodes();
+  const { mutate: cloneVoucher, isPending: isCloning } = useCloneVoucher();
 
   const handlePause = (id: number) => {
     pauseVoucher(id, {
@@ -73,6 +74,14 @@ export default function Vouchers() {
   const handleResume = (id: number) => {
     resumeVoucher(id, {
       onSuccess: () => toast.success("Voucher resumed successfully"),
+    });
+  };
+
+  const handleClone = (id: number) => {
+    cloneVoucher(id, {
+      onSuccess: (data: any) => {
+        toast.success(`Voucher cloned successfully: ${data.code}`);
+      },
     });
   };
 
@@ -262,6 +271,14 @@ export default function Vouchers() {
                           className="w-full text-left px-4 py-2 text-sm hover:bg-slate-50 dark:hover:bg-slate-700 text-indigo-600 flex items-center gap-2"
                         >
                           <span className="material-symbols-outlined text-sm">add_box</span> Generate Codes
+                        </button>
+
+                        <button
+                          onClick={() => handleClone(voucher.id)}
+                          disabled={isCloning}
+                          className="w-full text-left px-4 py-2 text-sm hover:bg-slate-50 dark:hover:bg-slate-700 text-blue-600 flex items-center gap-2"
+                        >
+                          <span className="material-symbols-outlined text-sm">content_copy</span> Clone
                         </button>
 
                         <button

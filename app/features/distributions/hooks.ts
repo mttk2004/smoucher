@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiClient } from "../../lib/api";
+import { api } from "../../lib/api";
 import type {
   ApiResponsePageDistributionResponse,
   ApiResponseDistributionResponse,
@@ -61,7 +61,7 @@ export function useDistributions(
       if (customerId) searchParams.append("customerId", customerId.toString());
       if (voucherId) searchParams.append("voucherId", voucherId.toString());
 
-      const response = await apiClient.get<ApiResponsePageDistributionResponse>(
+      const response = await api.get<ApiResponsePageDistributionResponse>(
         `/api/v1/distributions?${searchParams.toString()}`,
       );
       return response.data?.data;
@@ -73,7 +73,7 @@ export function useDistribution(id: number) {
   return useQuery({
     queryKey: distributionKeys.detail(id),
     queryFn: async () => {
-      const response = await apiClient.get<ApiResponseDistributionResponse>(
+      const response = await api.get<ApiResponseDistributionResponse>(
         `/api/v1/distributions/${id}`,
       );
       return response.data?.data;
@@ -87,7 +87,7 @@ export function useCreateDistribution() {
 
   return useMutation({
     mutationFn: async (data: DistributionCreateRequest) => {
-      const response = await apiClient.post<ApiResponseDistributionResponse>(
+      const response = await api.post<ApiResponseDistributionResponse>(
         "/api/v1/distributions",
         data,
       );
@@ -104,7 +104,7 @@ export function useRetryDistribution() {
 
   return useMutation({
     mutationFn: async (id: number) => {
-      const response = await apiClient.post<ApiResponseDistributionResponse>(
+      const response = await api.post<ApiResponseDistributionResponse>(
         `/api/v1/distributions/${id}/retry`,
       );
       return response.data?.data;
@@ -121,7 +121,7 @@ export function useResendDistribution() {
 
   return useMutation({
     mutationFn: async (id: number) => {
-      const response = await apiClient.post<ApiResponseDistributionResponse>(
+      const response = await api.post<ApiResponseDistributionResponse>(
         `/api/v1/distributions/${id}/resend`,
       );
       return response.data?.data;
@@ -138,7 +138,7 @@ export function useDeleteDistribution() {
 
   return useMutation({
     mutationFn: async (id: number) => {
-      const response = await apiClient.delete(`/api/v1/distributions/${id}`);
+      const response = await api.delete(`/api/v1/distributions/${id}`);
       return response.data;
     },
     onSuccess: (_, id) => {

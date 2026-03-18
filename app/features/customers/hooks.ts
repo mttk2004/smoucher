@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiClient } from "../../lib/api";
+import { api } from "../../lib/api";
 import type {
   ApiResponsePageCustomerResponse,
   ApiResponseCustomerResponse,
@@ -33,7 +33,7 @@ export function useCustomers(page = 0, size = 10, search = "") {
         searchParams.append("search", search);
       }
 
-      const response = await apiClient.get<ApiResponsePageCustomerResponse>(
+      const response = await api.get<ApiResponsePageCustomerResponse>(
         `/api/v1/customers?${searchParams.toString()}`
       );
       return response.data?.data;
@@ -45,7 +45,7 @@ export function useCustomer(id: number) {
   return useQuery({
     queryKey: customerKeys.detail(id),
     queryFn: async () => {
-      const response = await apiClient.get<ApiResponseCustomerResponse>(
+      const response = await api.get<ApiResponseCustomerResponse>(
         `/api/v1/customers/${id}`
       );
       return response.data?.data;
@@ -59,7 +59,7 @@ export function useCreateCustomer() {
 
   return useMutation({
     mutationFn: async (data: CustomerCreateRequest) => {
-      const response = await apiClient.post<ApiResponseCustomerResponse>(
+      const response = await api.post<ApiResponseCustomerResponse>(
         "/api/v1/customers",
         data
       );
@@ -76,7 +76,7 @@ export function useUpdateCustomer() {
 
   return useMutation({
     mutationFn: async ({ id, data }: { id: number; data: Partial<CustomerCreateRequest> }) => {
-      const response = await apiClient.put<ApiResponseCustomerResponse>(
+      const response = await api.put<ApiResponseCustomerResponse>(
         `/api/v1/customers/${id}`,
         data
       );
@@ -98,7 +98,7 @@ export function useCustomerVouchers(id: number, page = 0, size = 10) {
         size: size.toString(),
       });
 
-      const response = await apiClient.get<{ success: boolean; data: PageCustomerVoucherResponse; error?: any }>(
+      const response = await api.get<{ success: boolean; data: PageCustomerVoucherResponse; error?: any }>(
         `/api/v1/customers/${id}/vouchers?${searchParams.toString()}`
       );
       return response.data?.data;
@@ -116,7 +116,7 @@ export function useCustomerUsages(id: number, page = 0, size = 10) {
         size: size.toString(),
       });
 
-      const response = await apiClient.get<{ success: boolean; data: PageCustomerUsageResponse; error?: any }>(
+      const response = await api.get<{ success: boolean; data: PageCustomerUsageResponse; error?: any }>(
         `/api/v1/customers/${id}/usages?${searchParams.toString()}`
       );
       return response.data?.data;

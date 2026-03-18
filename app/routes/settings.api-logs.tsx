@@ -1,4 +1,7 @@
 import type { Route } from "./+types/settings.api-logs";
+import { useApiLogs } from "../features/api-logs/hooks";
+import { useQueryStates, parseAsInteger, parseAsString } from "nuqs";
+import { Pagination } from "../components/ui/Pagination";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -12,6 +15,30 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function ApiLogs() {
+  const [searchParams, setSearchParams] = useQueryStates({
+    page: parseAsInteger.withDefault(0),
+    size: parseAsInteger.withDefault(10),
+    method: parseAsString.withDefault(""),
+    endpoint: parseAsString.withDefault(""),
+    status: parseAsInteger,
+  });
+
+  const {
+    data: pageData,
+    isLoading,
+    refetch,
+  } = useApiLogs({
+    page: searchParams.page,
+    size: searchParams.size,
+    method: searchParams.method,
+    endpoint: searchParams.endpoint,
+    status: searchParams.status ?? undefined,
+  });
+
+  const handlePageChange = (newPage: number) => {
+    setSearchParams({ page: newPage });
+  };
+
   return (
     <>
       <div className="flex flex-col gap-8">
@@ -23,7 +50,10 @@ export default function ApiLogs() {
               </span>{" "}
               Export CSV
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
+            <button
+              onClick={() => refetch()}
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+            >
               <span className="material-symbols-outlined text-lg">refresh</span>{" "}
               Refresh
             </button>
@@ -92,26 +122,62 @@ export default function ApiLogs() {
         </div>
 
         <div className="flex flex-wrap gap-3 mb-4 items-center">
-          <button className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300">
-            Status: <span className="font-bold text-primary">All</span>
-            <span className="material-symbols-outlined text-sm">
-              expand_more
-            </span>
-          </button>
-          <button className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300">
-            Method: <span className="font-bold text-primary">POST, GET</span>
-            <span className="material-symbols-outlined text-sm">
-              expand_more
-            </span>
-          </button>
-          <button className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300">
-            Endpoint: <span className="font-bold text-primary">/v1/*</span>
-            <span className="material-symbols-outlined text-sm">
-              expand_more
-            </span>
-          </button>
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium">
+            <span className="text-slate-500">Status:</span>
+            <select
+              value={searchParams.status ?? ""}
+              onChange={(e) => setSearchParams({ status: e.target.value ? Number(e.target.value) : null, page: 0 })}
+              className="bg-transparent border-none focus:ring-0 font-bold text-primary cursor-pointer p-0"
+            >
+              <option value="">All</option>
+              <option value="200">200 OK</option>
+              <option value="201">201 Created</option>
+              <option value="400">400 Bad Request</option>
+              <option value="401">401 Unauthorized</option>
+              <option value="403">403 Forbidden</option>
+              <option value="404">404 Not Found</option>
+              <option value="500">500 Server Error</option>
+            </select>
+          </div>
+
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium">
+            <span className="text-slate-500">Method:</span>
+            <select
+              value={searchParams.method}
+              onChange={(e) => setSearchParams({ method: e.target.value, page: 0 })}
+              className="bg-transparent border-none focus:ring-0 font-bold text-primary cursor-pointer p-0"
+            >
+              <option value="">All</option>
+              <option value="GET">GET</option>
+              <option value="POST">POST</option>
+              <option value="PUT">PUT</option>
+              <option value="DELETE">DELETE</option>
+            </select>
+          </div>
+
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium flex-1 max-w-xs">
+            <span className="text-slate-500">Endpoint:</span>
+            <input
+              type="text"
+              value={searchParams.endpoint}
+              onChange={(e) => setSearchParams({ endpoint: e.target.value, page: 0 })}
+              placeholder="Filter by endpoint..."
+              className="bg-transparent border-none focus:ring-0 font-bold text-primary text-xs p-0 w-full"
+            />
+          </div>
+
           <div className="h-4 w-px bg-slate-200 dark:bg-slate-800 mx-2"></div>
-          <button className="text-xs font-medium text-slate-500 hover:text-primary transition-colors">
+          <button
+            onClick={() =>
+              setSearchParams({
+                method: "",
+                endpoint: "",
+                status: null,
+                page: 0,
+              })
+            }
+            className="text-xs font-medium text-slate-500 hover:text-primary transition-colors"
+          >
             Clear all filters
           </button>
         </div>
@@ -139,195 +205,90 @@ export default function ApiLogs() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                <tr className="group hover:bg-primary/5 cursor-pointer transition-colors">
-                  <td className="px-6 py-4">
-                    <span className="px-2 py-1 rounded bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest">
-                      GET
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-sm font-medium text-slate-700 dark:text-slate-300">
-                    /v1/users/me/profile
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <div className="size-2 rounded-full bg-emerald-500"></div>
-                      <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
-                        200 OK
+                {isLoading ? (
+                  <tr>
+                    <td
+                      colSpan={5}
+                      className="px-6 py-8 text-center text-slate-500"
+                    >
+                      <span className="material-symbols-outlined animate-spin text-2xl">
+                        progress_activity
                       </span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-slate-500 dark:text-slate-400 text-right">
-                    48ms
-                  </td>
-                  <td className="px-6 py-4 text-sm text-slate-400 text-right">
-                    Just now
-                  </td>
-                </tr>
-                <tr className="group hover:bg-primary/5 cursor-pointer transition-colors">
-                  <td className="px-6 py-4">
-                    <span className="px-2 py-1 rounded bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-widest">
-                      POST
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-sm font-medium text-slate-700 dark:text-slate-300">
-                    /v1/checkout/intent
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <div className="size-2 rounded-full bg-emerald-500"></div>
-                      <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
-                        201 Created
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-slate-500 dark:text-slate-400 text-right">
-                    212ms
-                  </td>
-                  <td className="px-6 py-4 text-sm text-slate-400 text-right">
-                    12s ago
-                  </td>
-                </tr>
-                <tr className="group hover:bg-primary/5 cursor-pointer transition-colors bg-primary/5">
-                  <td className="px-6 py-4">
-                    <span className="px-2 py-1 rounded bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-widest">
-                      POST
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-sm font-medium text-slate-700 dark:text-slate-300">
-                    /v1/auth/token/refresh
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <div className="size-2 rounded-full bg-amber-500"></div>
-                      <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
-                        401 Unauthorized
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-slate-500 dark:text-slate-400 text-right">
-                    15ms
-                  </td>
-                  <td className="px-6 py-4 text-sm text-slate-400 text-right">
-                    45s ago
-                  </td>
-                </tr>
-                <tr className="group hover:bg-primary/5 cursor-pointer transition-colors">
-                  <td className="px-6 py-4">
-                    <span className="px-2 py-1 rounded bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 text-[10px] font-black uppercase tracking-widest">
-                      DELETE
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-sm font-medium text-slate-700 dark:text-slate-300">
-                    /v1/webhooks/whk_0912Xj
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <div className="size-2 rounded-full bg-emerald-500"></div>
-                      <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
-                        204 No Content
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-slate-500 dark:text-slate-400 text-right">
-                    89ms
-                  </td>
-                  <td className="px-6 py-4 text-sm text-slate-400 text-right">
-                    2m ago
-                  </td>
-                </tr>
-                <tr className="group hover:bg-primary/5 cursor-pointer transition-colors">
-                  <td className="px-6 py-4">
-                    <span className="px-2 py-1 rounded bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest">
-                      GET
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-sm font-medium text-slate-700 dark:text-slate-300">
-                    /v1/metrics/usage
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <div className="size-2 rounded-full bg-rose-500 animate-pulse"></div>
-                      <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
-                        500 Server Error
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-slate-500 dark:text-slate-400 text-right font-bold text-rose-500">
-                    1,540ms
-                  </td>
-                  <td className="px-6 py-4 text-sm text-slate-400 text-right">
-                    3m ago
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
+                ) : !pageData?.content?.length ? (
+                  <tr>
+                    <td
+                      colSpan={5}
+                      className="px-6 py-8 text-center text-slate-500"
+                    >
+                      No logs found.
+                    </td>
+                  </tr>
+                ) : (
+                  pageData.content.map((log) => (
+                    <tr
+                      key={log.id}
+                      className="group hover:bg-primary/5 cursor-pointer transition-colors"
+                    >
+                      <td className="px-6 py-4">
+                        <span
+                          className={`px-2 py-1 rounded text-[10px] font-black uppercase tracking-widest ${
+                            log.method === "GET"
+                              ? "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                              : log.method === "POST"
+                                ? "bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400"
+                                : log.method === "DELETE"
+                                  ? "bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400"
+                                  : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
+                          }`}
+                        >
+                          {log.method}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-sm font-medium text-slate-700 dark:text-slate-300">
+                        {log.endpoint}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2">
+                          <div
+                            className={`size-2 rounded-full ${
+                              log.responseStatus >= 200 &&
+                              log.responseStatus < 300
+                                ? "bg-emerald-500"
+                                : log.responseStatus >= 400 &&
+                                    log.responseStatus < 500
+                                  ? "bg-amber-500"
+                                  : "bg-rose-500"
+                            }`}
+                          ></div>
+                          <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                            {log.responseStatus}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-slate-500 dark:text-slate-400 text-right">
+                        {log.responseTimeMs}ms
+                      </td>
+                      <td className="px-6 py-4 text-sm text-slate-400 text-right">
+                        {new Date(log.createdAt).toLocaleString()}
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
-
-          <div className="border-t border-slate-200 dark:border-slate-800 p-6 bg-slate-50 dark:bg-slate-900/50">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-4">
-                <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 uppercase tracking-tight">
-                  Request Preview
-                </h3>
-                <span className="text-[10px] font-mono bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-400">
-                  ID: req_88x29j3
-                </span>
-              </div>
-              <div className="flex gap-2">
-                <button className="px-2 py-1 text-[10px] font-bold text-primary hover:bg-primary/10 rounded uppercase">
-                  Copy JSON
-                </button>
-                <button className="px-2 py-1 text-[10px] font-bold text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-800 rounded uppercase">
-                  Expand
-                </button>
-              </div>
-            </div>
-            <div className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg p-4 font-mono text-xs leading-relaxed overflow-x-auto">
-              <pre className="text-slate-800 dark:text-slate-300">
-                <code>{`{
-  "request": {
-    "method": "POST",
-    "url": "https://api.smoucher.com/v1/auth/token/refresh",
-    "headers": {
-      "user-agent": "Axios/1.6.0",
-      "accept": "application/json",
-      "content-type": "application/json"
-    },
-    "body": {
-      "refresh_token": "rt_8829...021",
-      "grant_type": "refresh_token"
-    }
-  },
-  "response": {
-    "status": 401,
-    "body": {
-      "error": "invalid_token",
-      "message": "The provided refresh token is expired or revoked."
-    }
-  }
-}`}</code>
-              </pre>
-            </div>
-          </div>
-
-          <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-900">
-            <p className="text-xs text-slate-500">
-              Showing 1 to 50 of 1,284,592 logs
-            </p>
-            <div className="flex gap-2">
-              <button
-                className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-400 disabled:opacity-50"
-                disabled
-              >
-                <span className="material-symbols-outlined">chevron_left</span>
-              </button>
-              <button className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400">
-                <span className="material-symbols-outlined">chevron_right</span>
-              </button>
-            </div>
-          </div>
         </div>
       </div>
+
+      {pageData && pageData.totalPages > 1 && (
+        <Pagination
+          currentPage={pageData.number}
+          totalPages={pageData.totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
     </>
   );
 }

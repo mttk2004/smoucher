@@ -93,3 +93,16 @@ export const useGenerateVoucherCodes = () => {
     },
   });
 };
+
+export const useCloneVoucher = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: number) => {
+      const { data } = await api.post<ApiResponse<VoucherResponse>>(`/api/v1/vouchers/${id}/clone`);
+      return data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["vouchers"] });
+    },
+  });
+};
