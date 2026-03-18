@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
-import { Outlet, NavLink, Link, redirect, data, useSearchParams } from "react-router";
+import {
+  Outlet,
+  NavLink,
+  Link,
+  redirect,
+  data,
+  useSearchParams,
+  useLocation,
+} from "react-router";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import type { Route } from "./+types/dashboard";
@@ -21,6 +29,7 @@ export default function DashboardLayout() {
   const { t } = useTranslation();
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
   const { data: user } = useUser();
   const logout = useLogout();
   const isAdmin = user?.role === "ADMIN";
@@ -34,7 +43,11 @@ export default function DashboardLayout() {
 
     const error = searchParams.get("error");
     if (error === "already_logged_in") {
-      toast.error(t("login.alreadyLoggedIn", { defaultValue: "You are already logged in." }));
+      toast.error(
+        t("login.alreadyLoggedIn", {
+          defaultValue: "You are already logged in.",
+        }),
+      );
       setSearchParams(new URLSearchParams());
     }
   }, [searchParams, setSearchParams, t]);
@@ -115,7 +128,7 @@ export default function DashboardLayout() {
               </div>
               <NavLink
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg ${isActive || (typeof window !== "undefined" && window.location.pathname.startsWith("/settings")) ? "bg-primary/10 text-primary" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"}`
+                  `flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg ${isActive || location.pathname.startsWith("/settings") ? "bg-primary/10 text-primary" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"}`
                 }
                 to="/settings/api-keys"
               >
@@ -193,7 +206,11 @@ export default function DashboardLayout() {
                         {user?.fullName || "Alex Rivera"}
                       </p>
                       <p className="text-xs text-slate-500">
-                        {user?.role === "ADMIN" ? t("common.adminRole", { defaultValue: "Administrator" }) : t("common.staffRole", { defaultValue: "Staff" })}
+                        {user?.role === "ADMIN"
+                          ? t("common.adminRole", {
+                              defaultValue: "Administrator",
+                            })
+                          : t("common.staffRole", { defaultValue: "Staff" })}
                       </p>
                     </div>
                     {isAdmin && (

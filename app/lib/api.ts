@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const API_BASE_URL = "https://smart-voucher-api.oshi.id.vn";
+const API_BASE_URL = "http://localhost:8080";
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
@@ -21,7 +21,7 @@ api.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response Interceptor: Handle errors globally
@@ -33,5 +33,5 @@ api.interceptors.response.use(
     // Optionally handle global errors like 401 Unauthorized to refresh token
     // or redirect to login.
     return Promise.reject(error);
-  }
+  },
 );

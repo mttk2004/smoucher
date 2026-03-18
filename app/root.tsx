@@ -13,7 +13,7 @@ import "./i18n";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import { NuqsAdapter } from "nuqs/adapters/react-router/v7";
 
@@ -35,7 +35,7 @@ export const links: Route.LinksFunction = () => [
   {
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap",
-  }
+  },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -59,6 +59,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   const [queryClient] = useState(() => new QueryClient());
+
+  useEffect(() => {
+    const savedLang = localStorage.getItem("i18nextLng");
+    if (savedLang) {
+      i18n.changeLanguage(savedLang);
+    } else if (navigator.language) {
+      const browserLang = navigator.language.split("-")[0];
+      if (browserLang === "vi" || browserLang === "en") {
+        i18n.changeLanguage(browserLang);
+      }
+    }
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
