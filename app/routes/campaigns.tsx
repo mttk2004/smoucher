@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { useQueryStates, parseAsString, parseAsInteger } from "nuqs";
 import { PageHeader } from "../components/PageHeader";
 import { Pagination } from "../components/ui/Pagination";
-import { Badge } from "../components/ui/Badge";
+import { Badge, type BadgeVariant } from "../components/ui/Badge";
 import { useCampaigns, useUpdateCampaignStatus } from "../features/campaigns/hooks";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -16,7 +16,7 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-const getStatusVariant = (status: string) => {
+const getStatusVariant = (status: string): BadgeVariant => {
   switch (status) {
     case "ACTIVE":
       return "success";
@@ -162,7 +162,7 @@ export default function Campaigns() {
                       </div>
                     </td>
                     <td className="px-6 py-5">
-                      <Badge variant={getStatusVariant(campaign.status) as any}>
+                      <Badge variant={getStatusVariant(campaign.status)}>
                         {campaign.status}
                       </Badge>
                     </td>
