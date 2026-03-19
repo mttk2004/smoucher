@@ -45,6 +45,10 @@ export interface DashboardOverviewResponse {
   conversionRate: number;
   revenueByDay: Record<string, number>;
   activeMerchantCount: number;
+  activeCustomerCount: number;
+  savingsGrowthRate: number;
+  activeUsersGrowthRate: number;
+  redemptionRateGrowth: number;
 }
 
 export interface UsageTrendResponse {

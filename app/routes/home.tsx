@@ -116,9 +116,9 @@ export default function Home() {
     {
       title: t("dashboard.discountAmount") || "Discount Amount",
       icon: "account_balance_wallet",
-      value: `$${(overview?.totalDiscountAmount || 0).toLocaleString()}`,
-      trend: "",
-      trendDirection: "up" as const,
+      value: `${(overview?.totalDiscountAmount || 0).toLocaleString()}`,
+      trend: overview?.savingsGrowthRate !== undefined ? `${overview.savingsGrowthRate > 0 ? '+' : ''}${overview.savingsGrowthRate.toFixed(1)}%` : "",
+      trendDirection: (overview?.savingsGrowthRate || 0) >= 0 ? "up" as const : "down" as const,
       description: `${t("dashboard.conversionRate") || "Conversion Rate"}: ${((overview?.conversionRate || 0) * 100).toFixed(1)}%`,
     },
   ];
