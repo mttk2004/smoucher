@@ -215,8 +215,8 @@ export default function Customers() {
         <div className="px-6 py-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30">
           {!isLoading && pageData && (
             <Pagination
-              start={pageData.pageable.offset + 1}
-              end={Math.min(pageData.pageable.offset + pageData.size, pageData.totalElements)}
+              start={(pageData.number * pageData.size) + 1}
+              end={Math.min((pageData.number * pageData.size) + pageData.size, pageData.totalElements)}
               total={pageData.totalElements}
               itemName="customers"
               className="mt-0"
