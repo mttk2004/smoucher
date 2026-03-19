@@ -126,7 +126,7 @@ export default function History() {
             <thead>
               <tr className="bg-slate-50/50 dark:bg-slate-900/50">
                 <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">{t("table.externalOrderId")}</th>
-                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">{t("table.branchLocation")}</th>
+                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">Branch ID</th>
                 <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800 text-right">{t("table.discountAmount")}</th>
                 <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">{t("table.status")}</th>
                 <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">{t("table.timestamp")}</th>
