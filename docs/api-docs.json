@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://smart-voucher-api.oshi.id.vn",
+      "url": "http://localhost:8080",
       "description": "Generated server url"
     }
   ],
@@ -39,6 +39,10 @@
     {
       "name": "Phân quyền",
       "description": "Quản lý gán/thu hồi quyền cho các vai trò trong hệ thống"
+    },
+    {
+      "name": "Usages",
+      "description": "Lịch sử sử dụng voucher toàn hệ thống"
     },
     {
       "name": "Webhook",
@@ -2205,6 +2209,125 @@
         }
       }
     },
+    "/api/v1/usages": {
+      "get": {
+        "tags": ["Usages"],
+        "summary": "Lấy toàn bộ lịch sử sử dụng voucher (có filter + phân trang)",
+        "operationId": "getAll_7",
+        "parameters": [
+          {
+            "name": "externalOrderId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "externalBranchId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "usedAtFrom",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "usedAtTo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "pageable",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponsePageVoucherUsageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/usages/export": {
+      "get": {
+        "tags": ["Usages"],
+        "summary": "Xuất toàn bộ lịch sử sử dụng ra file CSV (có filter)",
+        "operationId": "exportCsv_1",
+        "parameters": [
+          {
+            "name": "externalOrderId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "externalBranchId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "usedAtFrom",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "usedAtTo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string",
+                  "format": "byte"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/roles/{role}/permissions": {
       "get": {
         "tags": ["Phân quyền"],
@@ -2782,7 +2905,7 @@
       "get": {
         "tags": ["Khách hàng"],
         "summary": "Xuất danh sách khách hàng ra file CSV",
-        "operationId": "exportCsv_1",
+        "operationId": "exportCsv_2",
         "parameters": [
           {
             "name": "spec",
@@ -2970,7 +3093,7 @@
       "get": {
         "tags": ["Audit Log"],
         "summary": "Xem lịch sử audit log (chỉ admin)",
-        "operationId": "getAll_7",
+        "operationId": "getAll_8",
         "parameters": [
           {
             "name": "pageable",
@@ -4482,14 +4605,14 @@
             "type": "integer",
             "format": "int64"
           },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
-          },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
           },
           "numberOfElements": {
             "type": "integer",
@@ -4520,19 +4643,19 @@
       "PageableObject": {
         "type": "object",
         "properties": {
-          "unpaged": {
-            "type": "boolean"
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
           "paged": {
             "type": "boolean"
           },
           "pageSize": {
             "type": "integer",
             "format": "int32"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unpaged": {
+            "type": "boolean"
           },
           "offset": {
             "type": "integer",
@@ -4585,14 +4708,14 @@
             "type": "integer",
             "format": "int64"
           },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
-          },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
           },
           "numberOfElements": {
             "type": "integer",
@@ -4627,6 +4750,13 @@
             "type": "integer",
             "format": "int64"
           },
+          "voucherId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "voucherCode": {
+            "type": "string"
+          },
           "customerId": {
             "type": "integer",
             "format": "int64"
@@ -4637,11 +4767,17 @@
           "externalOrderId": {
             "type": "string"
           },
+          "externalBranchId": {
+            "type": "string"
+          },
           "discountAmount": {
             "type": "number"
           },
           "orderTotal": {
             "type": "number"
+          },
+          "status": {
+            "type": "string"
           },
           "usedAt": {
             "type": "string",
@@ -4677,14 +4813,14 @@
             "type": "integer",
             "format": "int64"
           },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
-          },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
           },
           "numberOfElements": {
             "type": "integer",
@@ -4769,14 +4905,14 @@
             "type": "integer",
             "format": "int64"
           },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
-          },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
           },
           "numberOfElements": {
             "type": "integer",
@@ -4916,14 +5052,14 @@
             "type": "integer",
             "format": "int64"
           },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
-          },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
           },
           "numberOfElements": {
             "type": "integer",
@@ -5171,14 +5307,14 @@
             "type": "integer",
             "format": "int64"
           },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
-          },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
           },
           "numberOfElements": {
             "type": "integer",
@@ -5295,6 +5431,22 @@
           "activeMerchantCount": {
             "type": "integer",
             "format": "int64"
+          },
+          "activeCustomerCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "savingsGrowthRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "activeUsersGrowthRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "redemptionRateGrowth": {
+            "type": "number",
+            "format": "double"
           }
         }
       },
@@ -5372,14 +5524,14 @@
             "type": "integer",
             "format": "int64"
           },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
-          },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
           },
           "numberOfElements": {
             "type": "integer",
@@ -5480,14 +5632,14 @@
             "type": "integer",
             "format": "int64"
           },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
-          },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
           },
           "numberOfElements": {
             "type": "integer",
@@ -5572,14 +5724,14 @@
             "type": "integer",
             "format": "int64"
           },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
-          },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
           },
           "numberOfElements": {
             "type": "integer",
@@ -5638,14 +5790,14 @@
             "type": "integer",
             "format": "int64"
           },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
-          },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
           },
           "numberOfElements": {
             "type": "integer",
@@ -5733,14 +5885,14 @@
             "type": "integer",
             "format": "int64"
           },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
-          },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
           },
           "numberOfElements": {
             "type": "integer",
@@ -5799,14 +5951,14 @@
             "type": "integer",
             "format": "int64"
           },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
-          },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
           },
           "numberOfElements": {
             "type": "integer",
