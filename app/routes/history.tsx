@@ -84,7 +84,7 @@ export default function History() {
               </span>
               <input
                 className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
-                placeholder="Search Order ID..."
+                placeholder="Search..."
                 type="text"
                 value={search}
                 onChange={(e) => {
@@ -103,20 +103,13 @@ export default function History() {
                   keyboard_arrow_down
                 </span>
               </button>
-              <button className="flex items-center gap-2 px-3 py-2 border border-slate-200 dark:border-slate-800 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors">
-                <span className="material-symbols-outlined text-sm">
-                  storefront
-                </span>
-                {t("filters.branch")}
-                <span className="material-symbols-outlined text-sm">
-                  keyboard_arrow_down
-                </span>
-              </button>
             </div>
           </div>
           <div className="text-sm text-slate-500 font-medium">
             Showing{" "}
-            <span className="text-slate-900 dark:text-white">{totalElements}</span>{" "}
+            <span className="text-slate-900 dark:text-white">
+              {totalElements}
+            </span>{" "}
             records
           </div>
         </div>
@@ -125,43 +118,46 @@ export default function History() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50/50 dark:bg-slate-900/50">
-                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">{t("table.externalOrderId")}</th>
-                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">Branch ID</th>
-                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800 text-right">{t("table.discountAmount")}</th>
-                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">{t("table.status")}</th>
-                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">{t("table.timestamp")}</th>
+                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800 text-right">
+                  {t("table.discountAmount")}
+                </th>
+                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">
+                  {t("table.status")}
+                </th>
+                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">
+                  {t("table.timestamp")}
+                </th>
                 <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {isLoading ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-8 text-center text-slate-500">
-                    <span className="material-symbols-outlined animate-spin mr-2">progress_activity</span>
+                  <td
+                    colSpan={4}
+                    className="px-6 py-8 text-center text-slate-500"
+                  >
+                    <span className="material-symbols-outlined animate-spin mr-2">
+                      progress_activity
+                    </span>
                     Loading...
                   </td>
                 </tr>
               ) : content.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-8 text-center text-slate-500">
+                  <td
+                    colSpan={4}
+                    className="px-6 py-8 text-center text-slate-500"
+                  >
                     No records found
                   </td>
                 </tr>
               ) : (
                 content.map((record, i) => (
-                  <tr key={i} className="hover:bg-slate-50/50 dark:hover:bg-slate-900/50 transition-colors">
-                    <td className="px-6 py-4">
-                      <span className="font-mono text-sm text-primary font-semibold">
-                        {record.externalOrderId}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex flex-col">
-                        <span className="text-sm font-medium text-slate-900 dark:text-white">
-                          {record.externalBranchId || "Unknown"}
-                        </span>
-                      </div>
-                    </td>
+                  <tr
+                    key={i}
+                    className="hover:bg-slate-50/50 dark:hover:bg-slate-900/50 transition-colors"
+                  >
                     <td className="px-6 py-4 text-right">
                       <span className="text-sm font-bold text-slate-900 dark:text-white">
                         ${record.discountAmount.toLocaleString()}
@@ -171,7 +167,9 @@ export default function History() {
                       {renderStatusBadge(record.status)}
                     </td>
                     <td className="px-6 py-4 text-sm text-slate-500">
-                      {record.usedAt ? format(new Date(record.usedAt), "MMM dd, yyyy HH:mm") : "-"}
+                      {record.usedAt
+                        ? format(new Date(record.usedAt), "MMM dd, yyyy HH:mm")
+                        : "-"}
                     </td>
                     <td className="px-6 py-4 text-right">
                       <button className="p-1 hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-colors text-slate-400">
@@ -213,11 +211,17 @@ export default function History() {
             ${(overview?.totalDiscountAmount || 0).toLocaleString()}
           </p>
           {overview?.savingsGrowthRate !== undefined && (
-            <p className={`text-xs mt-1 flex items-center font-medium ${overview.savingsGrowthRate >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+            <p
+              className={`text-xs mt-1 flex items-center font-medium ${overview.savingsGrowthRate >= 0 ? "text-green-600" : "text-red-600"}`}
+            >
               <span className="material-symbols-outlined text-xs mr-1">
-                {overview.savingsGrowthRate >= 0 ? 'trending_up' : 'trending_down'}
+                {overview.savingsGrowthRate >= 0
+                  ? "trending_up"
+                  : "trending_down"}
               </span>
-              {overview.savingsGrowthRate > 0 ? '+' : ''}{overview.savingsGrowthRate.toFixed(1)}% {t("metrics.fromLastMonth")}
+              {overview.savingsGrowthRate > 0 ? "+" : ""}
+              {overview.savingsGrowthRate.toFixed(1)}%{" "}
+              {t("metrics.fromLastMonth")}
             </p>
           )}
         </div>
@@ -234,11 +238,17 @@ export default function History() {
             {overview?.activeCustomerCount?.toLocaleString() || "0"}
           </p>
           {overview?.activeUsersGrowthRate !== undefined && (
-            <p className={`text-xs mt-1 flex items-center font-medium ${overview.activeUsersGrowthRate >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+            <p
+              className={`text-xs mt-1 flex items-center font-medium ${overview.activeUsersGrowthRate >= 0 ? "text-green-600" : "text-red-600"}`}
+            >
               <span className="material-symbols-outlined text-xs mr-1">
-                {overview.activeUsersGrowthRate >= 0 ? 'trending_up' : 'trending_down'}
+                {overview.activeUsersGrowthRate >= 0
+                  ? "trending_up"
+                  : "trending_down"}
               </span>
-              {overview.activeUsersGrowthRate > 0 ? '+' : ''}{overview.activeUsersGrowthRate.toFixed(1)}% {t("metrics.fromLastMonth")}
+              {overview.activeUsersGrowthRate > 0 ? "+" : ""}
+              {overview.activeUsersGrowthRate.toFixed(1)}%{" "}
+              {t("metrics.fromLastMonth")}
             </p>
           )}
         </div>
@@ -252,14 +262,22 @@ export default function History() {
             </h3>
           </div>
           <p className="text-2xl font-bold text-slate-900 dark:text-white">
-            {overview?.conversionRate !== undefined ? `${(overview.conversionRate * 100).toFixed(1)}%` : "0%"}
+            {overview?.conversionRate !== undefined
+              ? `${(overview.conversionRate * 100).toFixed(1)}%`
+              : "0%"}
           </p>
           {overview?.redemptionRateGrowth !== undefined ? (
-             <p className={`text-xs mt-1 flex items-center font-medium ${overview.redemptionRateGrowth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+            <p
+              className={`text-xs mt-1 flex items-center font-medium ${overview.redemptionRateGrowth >= 0 ? "text-green-600" : "text-red-600"}`}
+            >
               <span className="material-symbols-outlined text-xs mr-1">
-                {overview.redemptionRateGrowth >= 0 ? 'trending_up' : 'trending_down'}
+                {overview.redemptionRateGrowth >= 0
+                  ? "trending_up"
+                  : "trending_down"}
               </span>
-              {overview.redemptionRateGrowth > 0 ? '+' : ''}{overview.redemptionRateGrowth.toFixed(1)}% {t("metrics.fromLastMonth")}
+              {overview.redemptionRateGrowth > 0 ? "+" : ""}
+              {overview.redemptionRateGrowth.toFixed(1)}%{" "}
+              {t("metrics.fromLastMonth")}
             </p>
           ) : (
             <p className="text-xs text-slate-500 mt-1 flex items-center font-medium">

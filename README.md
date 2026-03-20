@@ -26,7 +26,7 @@ Smoucher is a centralized Smart Voucher Management System for retail chains, bui
 
     - Dashboard: High-level metrics (Active Campaigns, Distributed Vouchers, Usage Rate, Budget) and charts.
 
-    - Usage History: Detailed table of voucher_usages with `external_order_id`, `external_branch_id`, and discount amounts. Note: Does not show detailed branch locations or addresses as these are managed by the external system.
+    - Usage History: Detailed table of voucher_usages and discount amounts.
 
   **2. Campaigns & Vouchers**
 
@@ -42,7 +42,7 @@ Smoucher is a centralized Smart Voucher Management System for retail chains, bui
 
       - Limits: Total max vs Max per customer.
 
-      - Application Rules: JSONB selectors storing external system IDs for products, categories, or branches.
+      - Application Rules: Configurable rules including min spend requirements.
 
       - Visibility: Public vs Private toggle.
 

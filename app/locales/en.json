@@ -163,7 +163,6 @@
     "clicked": "Clicked",
     "converted": "Converted",
     "externalOrderId": "External Order ID",
-    "branchLocation": "Branch Location",
     "discountAmount": "Discount Amount",
     "timestamp": "Timestamp",
     "customerName": "Customer Name",
@@ -192,7 +191,6 @@
     "expired": "Expired",
     "moreFilters": "More Filters",
     "dateRange": "Date Range",
-    "branch": "Branch",
     "tierGold": "Tier: Gold",
     "externalSystem": "External System",
     "lastActive": "Last Active"

@@ -21,7 +21,9 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Customers() {
   const { t } = useTranslation();
-  const [selectedCustomerId, setSelectedCustomerId] = useState<number | null>(null);
+  const [selectedCustomerId, setSelectedCustomerId] = useState<number | null>(
+    null,
+  );
   const [isUsageModalOpen, setIsUsageModalOpen] = useState(false);
 
   const [searchParams, setSearchParams] = useQueryStates({
@@ -39,7 +41,7 @@ export default function Customers() {
   const { data: usageData, isLoading: isUsageLoading } = useCustomerUsages(
     selectedCustomerId || 0,
     0,
-    20
+    20,
   );
 
   const openUsageModal = (id: number) => {
@@ -215,8 +217,11 @@ export default function Customers() {
         <div className="px-6 py-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30">
           {!isLoading && pageData && (
             <Pagination
-              start={(pageData.number * pageData.size) + 1}
-              end={Math.min((pageData.number * pageData.size) + pageData.size, pageData.totalElements)}
+              start={pageData.number * pageData.size + 1}
+              end={Math.min(
+                pageData.number * pageData.size + pageData.size,
+                pageData.totalElements,
+              )}
               total={pageData.totalElements}
               itemName="customers"
               className="mt-0"
@@ -230,10 +235,15 @@ export default function Customers() {
           <div className="bg-white dark:bg-slate-900 rounded-xl shadow-xl w-full max-w-2xl max-h-[80vh] overflow-hidden border border-slate-200 dark:border-slate-800 flex flex-col">
             <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50">
               <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <span className="material-symbols-outlined text-primary">history</span>
+                <span className="material-symbols-outlined text-primary">
+                  history
+                </span>
                 Voucher Usage History
               </h3>
-              <button onClick={() => setIsUsageModalOpen(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+              <button
+                onClick={() => setIsUsageModalOpen(false)}
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+              >
                 <span className="material-symbols-outlined">close</span>
               </button>
             </div>
@@ -241,11 +251,15 @@ export default function Customers() {
             <div className="flex-1 overflow-y-auto p-0">
               {isUsageLoading ? (
                 <div className="flex h-48 items-center justify-center">
-                  <span className="material-symbols-outlined animate-spin text-3xl text-slate-400">progress_activity</span>
+                  <span className="material-symbols-outlined animate-spin text-3xl text-slate-400">
+                    progress_activity
+                  </span>
                 </div>
               ) : !usageData?.content.length ? (
                 <div className="flex flex-col items-center justify-center h-48 text-slate-500 gap-2">
-                  <span className="material-symbols-outlined text-4xl opacity-20">receipt_long</span>
+                  <span className="material-symbols-outlined text-4xl opacity-20">
+                    receipt_long
+                  </span>
                   <p>No usage records found for this customer.</p>
                 </div>
               ) : (
@@ -253,20 +267,28 @@ export default function Customers() {
                   <thead className="sticky top-0 bg-white dark:bg-slate-900 z-10 shadow-sm shadow-slate-100 dark:shadow-slate-800">
                     <tr className="text-slate-500 text-[10px] font-black uppercase tracking-widest border-b border-slate-100 dark:border-slate-800">
                       <th className="px-6 py-3">Voucher</th>
-                      <th className="px-6 py-3">Order ID</th>
+
                       <th className="px-6 py-3 text-right">Discount</th>
                       <th className="px-6 py-3 text-right">Date</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                     {usageData.content.map((usage: any) => (
-                      <tr key={usage.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                      <tr
+                        key={usage.id}
+                        className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+                      >
                         <td className="px-6 py-4">
-                          <span className="font-mono text-xs font-bold text-primary">{usage.voucherCode}</span>
+                          <span className="font-mono text-xs font-bold text-primary">
+                            {usage.voucherCode}
+                          </span>
                         </td>
-                        <td className="px-6 py-4 text-xs text-slate-600 dark:text-slate-400 font-medium">{usage.externalOrderId}</td>
-                        <td className="px-6 py-4 text-xs text-right font-black text-slate-900 dark:text-slate-100">${usage.discountAmount.toLocaleString()}</td>
-                        <td className="px-6 py-4 text-[11px] text-right text-slate-500">{format(new Date(usage.usedAt), "MMM dd, HH:mm")}</td>
+                        <td className="px-6 py-4 text-xs text-right font-black text-slate-900 dark:text-slate-100">
+                          ${usage.discountAmount.toLocaleString()}
+                        </td>
+                        <td className="px-6 py-4 text-[11px] text-right text-slate-500">
+                          {format(new Date(usage.usedAt), "MMM dd, HH:mm")}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
